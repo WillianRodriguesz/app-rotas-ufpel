@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- CDN Alternativa para Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col">
+
+    <!-- Cabeçalho -->
+    <div class="flex items-center justify-between p-4 bg-white shadow-md">
+        <img src="/front-end/public/img/logo2.png" alt="Logo" class="w-40 h-auto"> 
+    </div>
+    
+    <!-- Barra de Pesquisa com Ícone na Direita -->
+    <div class="p-4 bg-white shadow-md">
+        <div class="relative">
+            <!-- Campo de Busca -->
+            <input 
+                type="text" 
+                placeholder="Pesquisar linhas, rotas ou horários..." 
+                class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none pr-10"
+            />
+            <!-- Ícone de Lupa na Direita -->
+            <span class="absolute inset-y-0 right-3 flex items-center text-gray-400">
+                <i class="fa-solid fa-magnifying-glass text-lg"></i>
+            </span>
+        </div>
+    </div>
+    
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow p-4 space-y-4">
+        <!-- Card 1 -->
+        <div class="bg-white shadow-md rounded-lg p-4 flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-bold text-gray-800">Anglo</h2>
+                <p class="text-sm text-gray-600">
+                    Parada XV – CEU – Parada XV – Odonto – ALM – Campus II – FaUrb – Cotada – CEIQ – Anglo
+                </p>
+            </div>
+            <div class="text-blue-600 text-xl font-bold">
+                7:30
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-white shadow-md rounded-lg p-4 flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-bold text-gray-800">Campus II</h2>
+                <p class="text-sm text-gray-600">
+                    Parada XV – Anglo – CEIQ – Campus II – ALM – Cotada – FaUrb – Odonto
+                </p>
+            </div>
+            <div class="text-blue-600 text-xl font-bold">
+                9:00
+            </div>
+        </div>
+    </main>
+    
+    <!-- Barra de Navegação Fixa -->
+    <div class="flex justify-between items-center fixed bottom-0 w-full shadow-lg py-3 px-4 md:hidden">
+        <a href="#" class="flex flex-col items-center">
+            <img src="/front-end/public/img/icons/home.svg" alt="Home" class="w-35 h-35"> 
+            <span class="text-xs text-gray-600"></span>
+        </a>
+        <a href="#" class="flex flex-col items-center">
+            <img src="/front-end/public/img/icons/location.svg" alt="Localização" class="w-35 h-35"> 
+            <span class="text-xs text-gray-600"></span>
+        </a>
+        <a href="#" class="flex flex-col items-center">
+            <img src="/front-end/public/img/icons/route.svg" alt="Rota" class="w-35 h-35"> 
+            <span class="text-xs text-gray-600"></span>
+        </a>
+    </div>
+</body>
+</html>

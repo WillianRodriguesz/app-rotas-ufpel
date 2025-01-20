@@ -1,0 +1,95 @@
+/* Estilos gerais */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f7fc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+}
+
+
+/* Logo */
+.logo {
+    width: 150px;
+    margin-top: 20px;
+}
+
+/* Texto de boas-vindas */
+.welcome-text {
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+/* Formulário de Login */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+    width: 100%;
+}
+
+/* Campos de entrada */
+.input-field {
+    width: 70%;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 50px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #3C69C4;
+    box-shadow: 0 0 8px rgba(60, 105, 196, 0.5);
+}
+
+/* Botão Logar */
+.btn.logar {
+    background-color: #3C69C4;
+    color: white;
+    width: 70%;
+    padding: 10px 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 80px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(60, 105, 196, 0.5);
+    transition: all 0.3s ease;
+}
+
+.btn.logar:hover {
+    opacity: 0.9;
+}
+
+/* Botão Voltar */
+.btn.voltar {
+    background-color: #F6A500;
+    color: white;
+    width: 70%;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 80px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(246, 165, 0, 0.5);
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn.voltar:hover {
+    opacity: 0.9;
+}

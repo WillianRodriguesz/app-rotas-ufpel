@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página do Motorista</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../../css/home-driver.css"> <!-- Vincula seu CSS -->
+</head>
+<body>
+  <div class="min-h-screen flex flex-col items-center">
+    <header class="driverHeader">
+      <img src="../../img/logo2.png" alt="Logo" class="logo">
+    </header>
+
+    <div class="profileContainer">
+      <div class="avatar bg-blue-500 flex items-center justify-center rounded-full w-32 h-32 overflow-hidden">
+        <!-- Caminho vazio para a imagem, o ícone será exibido em caso de erro -->
+        <img src="" alt="Foto de Perfil" class="object-cover w-full h-full" 
+            onerror="this.style.display='none'; this.parentNode.innerHTML='<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'currentColor\' class=\'w-28 h-28 text-white\' viewBox=\'0 0 24 24\'><path d=\'M12 12c2.209 0 4-1.791 4-4s-1.791-4-4-4-4 1.791-4 4 1.791 4 4 4zm0 2c-2.673 0-8 1.344-8 4v2h16v-2c0-2.656-5.327-4-8-4z\'/></svg>';">
+      </div>
+      <p class="driverName">Nome do Motorista</p>
+
+      <div class="driverStatusContainer">
+        <div class="statusCircle statusCircleOnline"></div> <!-- Ou statusCircleOffline -->
+        <p class="driverStatus driverStatusOnline">ONLINE</p> <!-- Ou driverStatusOffline -->
+      </div>
+
+      <button class="driverButton driverButtonOnline"> <!-- Ou driverButtonOffline -->
+        <span class="driverButtonText">Ficar Offline</span>
+      </button>
+
+      <!-- Exibe a localização e a precisão na tela -->
+      <div class="locationContainer">
+        <p>Latitude: 12.345678</p>
+        <p>Longitude: -98.765432</p>
+        <p>Precisão: 10 metros</p>
+      </div>
+
+    </div>
+  </div>
+</body>
+
+<script type="module" src="../../../src/js/home-driver.js"></script>
+
+</html>

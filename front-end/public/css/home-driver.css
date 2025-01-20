@@ -1,0 +1,194 @@
+/* Corpo da página */
+body {
+    background-color: #2b599e;
+}
+
+/* Header com gradiente moderno e sombra mais intensa */
+.driverHeader {
+    background-color: white;
+    color: white;
+    padding: 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0px 0px 50px 50px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    margin-bottom: 3rem;
+    width: 100vw; /* Largura da tela */
+    left: 0; /* Garante o alinhamento à esquerda */
+    right: 0; /* Garante o alinhamento à direita */
+    margin: 0 auto; /* Remove margens laterais */
+    max-width: 100%; /* Certifica-se que não há limite de largura */
+}
+
+/* Logo */
+.logo {
+    max-width: 350px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Círculo branco suave ao fundo */
+.driverHeader::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 220px;
+    height: 220px;
+    background-color: white;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    opacity: 0.1;
+}
+
+/* Container do perfil */
+.profileContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -6rem;
+    z-index: 1;
+    width: 90%;
+    max-width: 400px;
+    padding: 1.5rem;
+    border-radius: 12px;
+    position: relative;
+    margin-left: 15px;
+}
+
+/* Avatar */
+.avatar {
+    background-color: #fff;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    border: 5px solid #58a1e5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+/* Imagem do avatar */
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Nome do motorista */
+.driverName {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* Estilos para o status */
+.driverStatus {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+}
+
+/* Status Online/Offline */
+.driverStatusOnline {
+    color: #34d399; /* Verde para online */
+}
+
+.driverStatusOffline {
+    color: #f87171; /* Vermelho para offline */
+}
+
+/* Estilos para o botão de Toggle */
+.driverButton {
+    background-color: #91b5d7; /* Cor de fundo inicial */
+    color: white; /* Cor do texto inicial */
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0.8rem 2.5rem;
+    border-radius: 30px;
+    transition: all 0.3s ease; /* Transição suave */
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    margin-top: 2rem;
+}
+
+/* Estado do botão Online (Ativar) */
+.driverButtonOnline {
+    background-color: #e76363; /* Verde para online */
+    color: white; /* Cor do texto no estado online */
+}
+
+/* Estado do botão Offline (Desativar) */
+.driverButtonOffline {
+    background-color: #4bb58e; /* Vermelho para offline */
+    color: white; /* Texto em preto quando offline */
+}
+
+/* Hover no botão */
+.driverButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Texto dentro do botão */
+.driverButtonText {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+/* Animar bolinha piscando */
+.statusCircle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: pulse 1.5s infinite;
+    margin-top: 23px;
+}
+
+/* Efeito de pulsação para online */
+@keyframes pulseOnline {
+    0% {
+        opacity: 1;
+        background-color: #2b816296;
+    }
+    
+    100% {
+        opacity: 1;
+        background-color: #21f4a7;
+    }
+}
+
+/* Efeito de pulsação para offline */
+@keyframes pulseOffline {
+    0% {
+        opacity: 1;
+        background-color: #832424; /* Cinza */
+    }
+    
+    100% {
+        opacity: 1;
+        background-color: #f40b07;
+    }
+}
+
+/* Estilo da bolinha piscando para online */
+.statusCircleOnline {
+    animation: pulseOnline 0.4s infinite;
+}
+
+/* Estilo da bolinha piscando para offline */
+.statusCircleOffline {
+    animation: pulseOffline 0.4s infinite;
+}
+
+/* Container de status com alinhamento flex */
+.driverStatusContainer {
+    display: flex; /* Isso garante que os elementos fiquem lado a lado */
+    align-items: center; /* Alinha verticalmente no centro */
+}
