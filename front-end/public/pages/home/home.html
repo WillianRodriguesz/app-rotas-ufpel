@@ -6,6 +6,27 @@
     <title>Página Inicial</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        .dropdown-content {
+            display: none;
+            z-index: 20; /* Garantir que o dropdown fique acima de outros elementos */
+        }
+
+        #map {
+            z-index: 10; /* Mapa com z-index menor para ficar atrás dos dropdowns */
+        }
+
+        .dropdown-button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dropdown-icon {
+            width: 16px;
+            height: 16px;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 h-screen flex flex-col">
 
@@ -14,8 +35,40 @@
         <img src="/front-end/public/img/logo2.png" alt="Logo" class="w-40 h-auto"> 
     </div>
 
+    <div class="flex flex-col space-y-4 px-4 pb-4">
+        <!-- Dropdown Bus -->
+        <div class="relative">
+            <button id="busButton" class="dropdown-button w-full p-2 pr-10 border border-gray-300 rounded-lg text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-[#3C69C4] shadow-md hover:shadow-lg transition-all ease-in-out duration-300">
+                <span id="busButtonText">Localizar um ônibus</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="dropdown-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div id="busDropdown" class="absolute w-full mt-1 max-h-36 overflow-y-auto bg-white border border-gray-300 rounded-lg shadow-lg dropdown-content">
+                <button class="w-full text-left p-2 text-sm hover:bg-gray-100" onclick="selectBusOption('Ônibus 1')">Ônibus 1</button>
+                <button class="w-full text-left p-2 text-sm hover:bg-gray-100" onclick="selectBusOption('Ônibus 2')">Ônibus 2</button>
+                <button class="w-full text-left p-2 text-sm hover:bg-gray-100" onclick="selectBusOption('Ônibus 3')">Ônibus 3</button>
+            </div>
+        </div>
+
+        <!-- Dropdown Stop -->
+        <div class="relative">
+            <button id="stopButton" class="dropdown-button w-full p-2 pr-10 border border-gray-300 rounded-lg text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-[#3C69C4] shadow-md hover:shadow-lg transition-all ease-in-out duration-300">
+                <span id="stopButtonText">Localizar uma parada</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="dropdown-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div id="stopDropdown" class="absolute w-full mt-1 max-h-36 overflow-y-auto bg-white border border-gray-300 rounded-lg shadow-lg dropdown-content">
+                <button class="w-full text-left p-2 text-sm hover:bg-gray-100" onclick="selectStopOption('Parada 1')">Parada 1</button>
+                <button class="w-full text-left p-2 text-sm hover:bg-gray-100" onclick="selectStopOption('Parada 2')">Parada 2</button>
+                <button class="w-full text-left p-2 text-sm hover:bg-gray-100" onclick="selectStopOption('Parada 3')">Parada 3</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Mapa -->
-    <div id="map" class="bg-gray-200" style="height: 700px;"></div> <!-- Defina uma altura fixa para o mapa -->
+    <div id="map" class="bg-gray-200" style="height: 590px;"></div> <!-- Defina uma altura fixa para o mapa -->
 
     <!-- Menu -->
     <div class="flex justify-between items-center fixed bottom-0 w-full shadow-lg py-3 px-4 md:hidden z-10">
@@ -33,5 +86,56 @@
     <!-- JavaScript -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="../../../src/js/map.js"></script>
+    
+    <script>
+        // Função para alternar o dropdown e garantir que só um dropdown esteja visível
+        function toggleDropdown(dropdownId, buttonId) {
+            const dropdown = document.getElementById(dropdownId);
+            const isVisible = dropdown.style.display === 'block';
+            const dropdowns = document.querySelectorAll('.dropdown-content');
+            
+            // Fechar todos os dropdowns
+            dropdowns.forEach(dropdown => dropdown.style.display = 'none');
+            
+            // Alternar o dropdown do botão selecionado
+            dropdown.style.display = isVisible ? 'none' : 'block';
+            
+            // Alterar o ícone da seta
+            const arrows = document.querySelectorAll('.dropdown-icon');
+            arrows.forEach(arrow => arrow.style.transform = 'rotate(0deg)');
+            const arrow = document.getElementById(buttonId + 'Arrow');
+            arrow.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+
+        // Substituir o texto do botão de ônibus
+        function selectBusOption(option) {
+            document.getElementById('busButtonText').innerText = option;
+            toggleDropdown('busDropdown', 'bus');
+        }
+
+        // Substituir o texto do botão de paradas
+        function selectStopOption(option) {
+            document.getElementById('stopButtonText').innerText = option;
+            toggleDropdown('stopDropdown', 'stop');
+        }
+
+        // Abre ou fecha o dropdown de ônibus
+        document.getElementById('busButton').addEventListener('click', function() {
+            toggleDropdown('busDropdown', 'bus');
+        });
+
+        // Abre ou fecha o dropdown de paradas
+        document.getElementById('stopButton').addEventListener('click', function() {
+            toggleDropdown('stopDropdown', 'stop');
+        });
+
+        // Fecha os dropdowns se o usuário clicar fora deles
+        window.addEventListener('click', function(event) {
+            if (!event.target.matches('#busButton') && !event.target.matches('#stopButton')) {
+                const dropdowns = document.querySelectorAll('.dropdown-content');
+                dropdowns.forEach(dropdown => dropdown.style.display = 'none');
+            }
+        });
+    </script>
 </body>
 </html>

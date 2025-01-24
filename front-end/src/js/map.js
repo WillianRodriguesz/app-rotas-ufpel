@@ -10,41 +10,71 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 let markers = [];
 let routes = [];
 
+// Define o ícone personalizado
+const customIcon = L.icon({
+    iconUrl: '/front-end/public/img/iconBus.png', // Caminho corrigido para acessar a pasta public
+    iconSize: [60, 60],         // Tamanho do ícone
+    iconAnchor: [30, 30],       // Base do ícone
+    popupAnchor: [0, -32]       // Posição do pop-up em relação ao ícone
+});
+
 // Função para adicionar um marcador
-function addMarker(lat, lon, message) {
-    const marker = L.marker([lat, lon]).addTo(map);
-    marker.bindPopup(message).openPopup();
+function addMarker(lat, lon, message, useCustomIcon = false) {
+    const icon = useCustomIcon ? customIcon : undefined;
+    const marker = L.marker([lat, lon], { icon }).addTo(map);
+    marker.bindPopup(message); // Associa a mensagem ao marcador, mas não exibe automaticamente
+    marker.on('click', () => {
+        marker.openPopup(); // Exibe o pop-up somente quando o marcador é clicado
+    });
     markers.push(marker); // Armazena o marcador
     return marker; // Retorna o marcador para controle posterior
 }
 
 // Função para adicionar uma rota
-function addRoute() {
-    const latlngs = [
-        [-31.780832297261984, -52.323695006471866],
-        [-31.780157095467167, -52.323734327957766],
-        [-31.780157095467167, -52.323734327957766],
-    ];
-
-    const polyline = L.polyline(latlngs, { color: 'blue' }).addTo(map);
+function addRoute(latlngs, color = 'blue') {
+    const polyline = L.polyline(latlngs, { color }).addTo(map);
     routes.push(polyline); // Armazena a rota
     map.fitBounds(polyline.getBounds());
 }
 
 // Função para limpar o mapa
 function clearMap() {
-    markers.forEach(marker => {
-        map.removeLayer(marker);
-    });
+    markers.forEach(marker => map.removeLayer(marker));
     markers = [];
 
-    routes.forEach(route => {
-        map.removeLayer(route);
-    });
+    routes.forEach(route => map.removeLayer(route));
     routes = [];
 }
 
-// Dados mockados de localização (simula uma mudança de coordenadas)
+// Adiciona o marcador inicial com ícone customizado
+const marker = addMarker(-31.780157095467167, -52.323734327957766, "Rota Anglo", true);
+
+
+// Função para simular atualizações de localização
+let currentLocationIndex = 0;
+function simulateLocationUpdates() {
+    setInterval(() => {
+        if (currentLocationIndex < mockLocations.length) {
+            const newLatLng = mockLocations[currentLocationIndex];
+            marker.setLatLng(newLatLng); // Atualiza a posição do marcador
+            map.panTo(newLatLng);       // Move o mapa para a nova posição, sem alterar o zoom
+            currentLocationIndex++;    // Avança para a próxima localização
+        } else {
+            currentLocationIndex = 0; // Reseta para o início quando chega no final do array
+        }
+    }, 2000); // Atualiza a cada 2 segundos
+}
+
+// Inicia a simulação de atualizações de localização
+simulateLocationUpdates();
+
+// Função para seguir o cursor no mapa
+map.on('mousemove', function(e) {
+    const latLng = e.latlng; // Captura a posição do mouse no mapa
+    map.panTo(latLng);       // Move o mapa para a posição do mouse
+});
+
+// Dados mockados de localização (simula mudanças de coordenadas)
 const mockLocations = [
     [-31.78118233495962, -52.32371981350748],
     [-31.780271110092038, -52.32379039527901],
@@ -55,7 +85,7 @@ const mockLocations = [
     [-31.778507900087504, -52.333505949794535],
     [-31.781225500049477, -52.33465409477287],
     [-31.779397030378746, -52.34081962921275],
-    [-31.77572561164023, -52.33926830964254], // campus 2
+    [-31.77572561164023, -52.33926830964254], // Campus 2
     [-31.77569528552374, -52.339257466446135],
     [-31.7759772139352, -52.33838816496157],
     [-31.77625135150096, -52.33744911098334], 
@@ -79,32 +109,3 @@ const mockLocations = [
     [-31.773525103417974, -52.33838912246313],
     [-31.77612268539401, -52.339448950254436]
 ];
-
-// Adiciona o marcador inicial
-const marker = addMarker(-31.780157095467167, -52.323734327957766, "Bem-vindo! Esta é a sua localização inicial.");
-addRoute();
-
-// Função para mover o marcador com dados mockados
-let currentLocationIndex = 0;
-function simulateLocationUpdates() {
-    setInterval(() => {
-        // Atualiza as coordenadas do marcador com a próxima localização dos dados mockados
-        if (currentLocationIndex < mockLocations.length) {
-            const newLatLng = mockLocations[currentLocationIndex];
-            marker.setLatLng(newLatLng); // Atualiza a posição do marcador
-            map.panTo(newLatLng); // Move o mapa para a nova posição, sem alterar o zoom
-            currentLocationIndex++; // Avança para a próxima localização
-        } else {
-            currentLocationIndex = 0; // Reseta para o início quando chega no final do array
-        }
-    }, 2000); // Atualiza a cada 2 segundos (2000 ms)
-}
-
-// Inicia a simulação de atualizações de local
-simulateLocationUpdates();
-
-// Função para fazer o mapa seguir o cursor
-map.on('mousemove', function(e) {
-    const latLng = e.latlng; // Captura a posição do mouse no mapa
-    map.panTo(latLng); // Move o mapa para o centro da posição do mouse, mas não altera o zoom
-});
