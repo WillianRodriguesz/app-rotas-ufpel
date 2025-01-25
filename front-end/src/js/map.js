@@ -12,7 +12,7 @@ let routes = [];
 
 // Define o ícone personalizado
 const customIcon = L.icon({
-    iconUrl: '/front-end/public/img/iconBus.png', // Caminho corrigido para acessar a pasta public
+    iconUrl: '/public/img/iconBus.png', // Caminho corrigido para acessar a pasta public
     iconSize: [60, 60],         // Tamanho do ícone
     iconAnchor: [30, 30],       // Base do ícone
     popupAnchor: [0, -32]       // Posição do pop-up em relação ao ícone
