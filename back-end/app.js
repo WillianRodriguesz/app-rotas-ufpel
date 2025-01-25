@@ -6,6 +6,7 @@ require('dotenv').config();
 const motoristaRoutes = require('../back-end/routes/userRoutes');
 const loginRoutes = require('../back-end/routes/loginRoutes'); 
 
+app.use(express.static('front-end/public'));
 app.use(cookieParser());  
 
 app.use(express.json()); 

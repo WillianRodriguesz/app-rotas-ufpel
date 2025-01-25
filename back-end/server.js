@@ -9,7 +9,7 @@ const options = {
   key: fs.readFileSync(path.resolve(__dirname, '../server.key'))  
 };
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 https.createServer(options, app).listen(PORT, () => {
   console.log(`Servidor online! Porta: ${PORT}`);
