@@ -23,7 +23,7 @@ const customIcon = L.icon({
 // Define um ícone básico para as paradas
 const paradaIcon = L.icon({
     iconUrl: '/public/img/iconParada.png', // Caminho para o ícone das paradas
-    iconSize: [30, 45],         
+    iconSize: [25, 47],         
     iconAnchor: [20, 20],       
     popupAnchor: [-5, -15]       
 });
