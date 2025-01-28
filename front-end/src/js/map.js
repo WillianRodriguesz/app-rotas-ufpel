@@ -1,4 +1,6 @@
-// Inicializa o mapa
+import mockLocations from "./mocks/location.js";
+import paradas from "./mocks/paradas.js";
+
 const map = L.map('map').setView([-31.780832297261984, -52.323695006471866], 20); // Posição inicial
 
 // Adiciona tiles do CartoDB Positron
@@ -10,30 +12,38 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 let markers = [];
 let routes = [];
 
-// Define o ícone personalizado
+// Define o ícone personalizado para o ônibus
 const customIcon = L.icon({
-    iconUrl: '/public/img/iconBus.png', // Caminho corrigido para acessar a pasta public
-    iconSize: [60, 60],         // Tamanho do ícone
-    iconAnchor: [30, 30],       // Base do ícone
-    popupAnchor: [0, -32]       // Posição do pop-up em relação ao ícone
+    iconUrl: '/public/img/iconBus.png', 
+    iconSize: [60, 60],         
+    iconAnchor: [30, 30],       
+    popupAnchor: [0, -32]       
+});
+
+// Define um ícone básico para as paradas
+const paradaIcon = L.icon({
+    iconUrl: '/public/img/iconParada.png', // Caminho para o ícone das paradas
+    iconSize: [30, 45],         
+    iconAnchor: [20, 20],       
+    popupAnchor: [-5, -15]       
 });
 
 // Função para adicionar um marcador
-function addMarker(lat, lon, message, useCustomIcon = false) {
-    const icon = useCustomIcon ? customIcon : undefined;
-    const marker = L.marker([lat, lon], { icon }).addTo(map);
-    marker.bindPopup(message); // Associa a mensagem ao marcador, mas não exibe automaticamente
+function addMarker(lat, lon, message, useCustomIcon = false, icon = undefined) {
+    const markerIcon = useCustomIcon ? customIcon : icon;
+    const marker = L.marker([lat, lon], { icon: markerIcon }).addTo(map);
+    marker.bindPopup(message); 
     marker.on('click', () => {
-        marker.openPopup(); // Exibe o pop-up somente quando o marcador é clicado
+        marker.openPopup(); 
     });
-    markers.push(marker); // Armazena o marcador
-    return marker; // Retorna o marcador para controle posterior
+    markers.push(marker); 
+    return marker; 
 }
 
 // Função para adicionar uma rota
 function addRoute(latlngs, color = 'blue') {
     const polyline = L.polyline(latlngs, { color }).addTo(map);
-    routes.push(polyline); // Armazena a rota
+    routes.push(polyline); 
     map.fitBounds(polyline.getBounds());
 }
 
@@ -46,9 +56,13 @@ function clearMap() {
     routes = [];
 }
 
-// Adiciona o marcador inicial com ícone customizado
+// Adiciona o marcador inicial com ícone customizado (ônibus)
 const marker = addMarker(-31.780157095467167, -52.323734327957766, "Rota Anglo", true);
 
+// Adiciona marcadores para as paradas
+paradas.forEach(({ position, parada }) => {
+    addMarker(position[0], position[1], parada, false, paradaIcon);
+});
 
 // Função para simular atualizações de localização
 let currentLocationIndex = 0;
@@ -56,56 +70,14 @@ function simulateLocationUpdates() {
     setInterval(() => {
         if (currentLocationIndex < mockLocations.length) {
             const newLatLng = mockLocations[currentLocationIndex];
-            marker.setLatLng(newLatLng); // Atualiza a posição do marcador
-            map.panTo(newLatLng);       // Move o mapa para a nova posição, sem alterar o zoom
-            currentLocationIndex++;    // Avança para a próxima localização
+            marker.setLatLng(newLatLng); 
+            map.panTo(newLatLng);       
+            currentLocationIndex++;    
         } else {
-            currentLocationIndex = 0; // Reseta para o início quando chega no final do array
+            currentLocationIndex = 0; 
         }
     }, 2000); // Atualiza a cada 2 segundos
 }
 
 // Inicia a simulação de atualizações de localização
 simulateLocationUpdates();
-
-// Função para seguir o cursor no mapa
-map.on('mousemove', function(e) {
-    const latLng = e.latlng; // Captura a posição do mouse no mapa
-    map.panTo(latLng);       // Move o mapa para a posição do mouse
-});
-
-// Dados mockados de localização (simula mudanças de coordenadas)
-const mockLocations = [
-    [-31.78118233495962, -52.32371981350748],
-    [-31.780271110092038, -52.32379039527901],
-    [-31.780063121258635, -52.32392130126933],
-    [-31.780662428124717, -52.32608836604281],
-    [-31.78066604107426, -52.326159960976206],
-    [-31.780586245771794, -52.32655027784289],
-    [-31.778507900087504, -52.333505949794535],
-    [-31.781225500049477, -52.33465409477287],
-    [-31.779397030378746, -52.34081962921275],
-    [-31.77572561164023, -52.33926830964254], // Campus 2
-    [-31.77569528552374, -52.339257466446135],
-    [-31.7759772139352, -52.33838816496157],
-    [-31.77625135150096, -52.33744911098334], 
-    [-31.777189171048494, -52.33785205446799], 
-    [-31.77689136110633, -52.3387750729754], 
-    [-31.77529556342421, -52.34417625219015],
-    [-31.77908353970484, -52.345737425718575],
-    [-31.77751179815117, -52.3511916307895],
-    [-31.77544933872902, -52.350283848819984],
-    [-31.775101038005374, -52.35145138084516],
-    [-31.772301492712337, -52.35025742608794],
-    [-31.77295132634783, -52.34807107092122],
-    [-31.77197655650708, -52.34759710716901],
-    [-31.77294937495755, -52.34436368588353],
-    [-31.771901378895187, -52.34392175526549],
-    [-31.772188081386027, -52.34288668672046],
-    [-31.775287241789705, -52.34420845689264], 
-    [-31.771278453484406, -52.34250293274953],
-    [-31.773204177988298, -52.33616838341954],
-    [-31.77410628713858, -52.33654607235083],
-    [-31.773525103417974, -52.33838912246313],
-    [-31.77612268539401, -52.339448950254436]
-];
