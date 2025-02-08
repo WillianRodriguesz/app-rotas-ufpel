@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const paradaController = require('../controllers/paradaController.js');
+const paradaController = require('../controllers/stopController.js');
 const authMiddleware = require('../middlewares/authMiddleware.js');
 
-router.post('/paradas', authMiddleware, paradaController.criarParada);
-router.get('/paradas', authMiddleware, paradaController.listarParadas);
-router.get('/paradas/:id', authMiddleware, paradaController.obterParadaPorId);
-router.put('/paradas/:id', authMiddleware, paradaController.atualizarParada);
-router.delete('/paradas/:id', authMiddleware, paradaController.excluirParada);
+router.post('/paradas', paradaController.criarParada);
+router.get('/paradas', paradaController.listarParadas);
+router.get('/paradas/:id', paradaController.obterParadaPorId);
+router.put('/paradas/:id', paradaController.atualizarParada);
+router.delete('/paradas/:id', paradaController.excluirParada);
 
 module.exports = router;
