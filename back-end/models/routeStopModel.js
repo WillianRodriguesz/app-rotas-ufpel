@@ -1,48 +1,32 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/config');
-const Route = require('./routeModel');
-const Stop = require('./stopModel');
+const Rota = require('./routeModel');
+const Parada = require('./stopModel');
 
-const RouteStop = sequelize.define('route_stop', {
-    id: {  
+const RotaParada = sequelize.define('rotaParada', {
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true, 
+        autoIncrement: true
     },
-    route_id: {
+    ordem: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: Route,
-            key: 'id'
-        },
-        onDelete: 'CASCADE'
-    },
-    stop_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: Stop,
-            key: 'id'
-        },
-        onDelete: 'CASCADE'
-    },
-    order: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: false
     }
 }, {
-    tableName: 'rota_paradas', 
-    timestamps: false, 
-    indexes: [
-        {
-            unique: true,
-            fields: ['route_id', 'order']
-        }
-    ]
+    tableName: 'rota_paradas',
+    timestamps: false
 });
 
-RouteStop.belongsTo(Route, { foreignKey: 'route_id' });
-RouteStop.belongsTo(Stop, { foreignKey: 'stop_id' });
+RotaParada.associate = (models) => {
+    RotaParada.belongsTo(models.Rota, {
+        foreignKey: 'rota_id',
+        onDelete: 'CASCADE'
+    });
+    RotaParada.belongsTo(models.Parada, {
+        foreignKey: 'parada_id',
+        onDelete: 'CASCADE'
+    });
+};
 
-module.exports = RouteStop;
+module.exports = RotaParada;

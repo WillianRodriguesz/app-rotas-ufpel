@@ -1,27 +1,27 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/config');
 
-const Stop = sequelize.define('stop', {
-    id: {  
+const Parada = sequelize.define('parada', {
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true, 
+        autoIncrement: true
     },
-    name: {
+    nome: {
         type: DataTypes.STRING(255),
-        allowNull: false, 
+        allowNull: false
     },
     latitude: {
-        type: DataTypes.DECIMAL(9,6),
-        allowNull: false, 
+        type: DataTypes.DECIMAL(9, 6),
+        allowNull: false
     },
     longitude: {
-        type: DataTypes.DECIMAL(9,6),
-        allowNull: false, 
+        type: DataTypes.DECIMAL(9, 6),
+        allowNull: false
     }
 }, {
-    tableName: 'paradas', 
-    timestamps: false, 
+    tableName: 'paradas',
+    timestamps: false
 });
 
-module.exports = Stop;
+module.exports = Parada;

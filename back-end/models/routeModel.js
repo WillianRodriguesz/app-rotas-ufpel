@@ -1,25 +1,19 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/config');
-const RouteStop = require('./routeStopModel');
-const Stop = require('./stopModel');
-const Schedule = require('./scheduleModel');
 
-const Route = sequelize.define('route', {
-    id: {  
+const Rota = sequelize.define('rota', {
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true, 
+        autoIncrement: true
     },
-    name: {
+    nome: {
         type: DataTypes.STRING(255),
-        allowNull: false, 
+        allowNull: false
     }
 }, {
-    tableName: 'rotas', 
-    timestamps: false, 
+    tableName: 'rotas',
+    timestamps: false
 });
 
-Route.belongsToMany(Stop, { through: RouteStop, foreignKey: 'route_id' });
-Route.hasMany(Schedule, { foreignKey: 'route_id', onDelete: 'CASCADE' });
-
-module.exports = Route;
+module.exports = Rota;
