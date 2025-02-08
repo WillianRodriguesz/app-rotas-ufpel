@@ -1,18 +1,15 @@
 import mockLocations from "./mocks/location.js";
 import paradas from "./mocks/paradas.js";
 
-const map = L.map('map').setView([-31.780832297261984, -52.323695006471866], 20); // Posição inicial
+const map = L.map('map').setView([-31.780832297261984, -52.323695006471866], 20); 
 
-// Adiciona tiles do CartoDB Positron
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CartoDB</a>',
 }).addTo(map);
 
-// Armazenar referências de marcadores e rotas
 let markers = [];
 let routes = [];
 
-// Define o ícone personalizado para o ônibus
 const customIcon = L.icon({
     iconUrl: '/public/img/iconBus.png', 
     iconSize: [60, 60],         
@@ -22,7 +19,7 @@ const customIcon = L.icon({
 
 // Define um ícone básico para as paradas
 const paradaIcon = L.icon({
-    iconUrl: '/public/img/iconParada.png', // Caminho para o ícone das paradas
+    iconUrl: '/public/img/iconParada.png', 
     iconSize: [25, 47],         
     iconAnchor: [20, 20],       
     popupAnchor: [-5, -15]       

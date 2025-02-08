@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/config'); 
 
-const Motorista = sequelize.define('motorista', {
-    id_motorista: {
+const Usuario = sequelize.define('usuario', {
+    id_usuario: {  
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true, 
@@ -20,7 +20,7 @@ const Motorista = sequelize.define('motorista', {
         type: DataTypes.STRING(255),
         allowNull: false, 
     },
-    admin: {
+    motorista: {  
         type: DataTypes.BOOLEAN,
         defaultValue: false, 
     },
@@ -29,8 +29,8 @@ const Motorista = sequelize.define('motorista', {
         defaultValue: DataTypes.NOW, 
     }
 }, {
-    tableName: 'motoristas', 
+    tableName: 'usuarios', 
     timestamps: false, 
 });
 
-module.exports = Motorista;
+module.exports = Usuario;

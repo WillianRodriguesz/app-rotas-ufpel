@@ -1,86 +1,86 @@
-const Motorista = require('../../models/userModel.js'); 
+const Usuario = require('../../models/userModel.js'); 
 const bcrypt = require('bcrypt');
 
-async function inserirMotorista(nome, email, senha, admin) {
+async function inserirUsuario(nome, email, senha, motorista) {
     try {
         const senhaCriptografada = await bcrypt.hash(senha, 10);
 
-        const motorista = await Motorista.create({
+        const usuario = await Usuario.create({
             nome,
             email,
             senha: senhaCriptografada,
-            admin
+            motorista
         });
 
-        return motorista; 
+        return usuario; 
     } catch (erro) {
-        console.error('Erro ao inserir motorista:', erro);
+        console.error('Erro ao inserir usuário:', erro);
         throw erro;
     }
 }
 
-async function obterMotoristas() {
+async function obterUsuarios() {
     try {
-        const motoristas = await Motorista.findAll();
-        return motoristas; 
+        const usuarios = await Usuario.findAll();
+        return usuarios; 
     } catch (erro) {
-        console.error('Erro ao listar motoristas:', erro);
+        console.error('Erro ao listar usuários:', erro);
         throw erro;
     }
 }
 
-async function obterMotoristaPorEmail(email) {
+async function obterUsuarioPorEmail(email) {
     try {
-        const motorista = await Motorista.findOne({
+        const usuario = await Usuario.findOne({
             where: { email }
         });
 
-        return motorista; 
+        return usuario; 
     } catch (erro) {
-        console.error('Erro ao buscar motorista:', erro);
+        console.error('Erro ao buscar usuário:', erro);
         throw erro;
     }
 }
 
-async function atualizarMotorista(id_motorista, nome, email, senha, admin) {
+async function atualizarUsuario(id_usuario, nome, email, senha, motorista) {
     try {
-        const motorista = await Motorista.findByPk(id_motorista);
+        const usuario = await Usuario.findByPk(id_usuario);
 
-        if (!motorista) {
-            console.log('Motorista não encontrado');
+        if (!usuario) {
+            console.log('Usuário não encontrado');
             return null;
         }
 
-        motorista.nome = nome;
-        motorista.email = email;
-        motorista.senha = senha ? await bcrypt.hash(senha, 10) : motorista.senha;
-        motorista.admin = admin;
+        usuario.nome = nome;
+        usuario.email = email;
+        usuario.senha = senha ? await bcrypt.hash(senha, 10) : usuario.senha;
+        usuario.motorista = motorista;
 
-        await motorista.save();
+        await usuario.save();
 
-        return motorista; 
+        return usuario; 
     } catch (erro) {
-        console.error('Erro ao atualizar motorista:', erro);
+        console.error('Erro ao atualizar usuário:', erro);
         throw erro;
     }
 }
 
-async function excluirMotorista(id_motorista) {
+async function excluirUsuario(id_usuario) {
     try {
-        const motorista = await Motorista.findByPk(id_motorista);
+        const usuario = await Usuario.findByPk(id_usuario);
 
-        if (!motorista) {
-            console.log('Motorista não encontrado');
+        if (!usuario) {
+            console.log('Usuário não encontrado');
             return null;
         }
 
-        await motorista.destroy();
+        await usuario.destroy();
 
-        return motorista; 
+        return usuario; 
     } catch (erro) {
-        console.error('Erro ao excluir motorista:', erro);
+        console.error('Erro ao excluir usuário:', erro);
         throw erro;
     }
 }
 
-module.exports = { inserirMotorista, obterMotoristas, obterMotoristaPorEmail, atualizarMotorista, excluirMotorista };
+module.exports = { inserirUsuario, obterUsuarios, obterUsuarioPorEmail, atualizarUsuario, excluirUsuario };
