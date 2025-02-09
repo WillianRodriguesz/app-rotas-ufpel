@@ -87,57 +87,7 @@
 
     <!-- JavaScript -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script type="module" src="../../../src/js/app-student/location/map.js"></script>
-    
-    <script>
-        // Função para alternar o dropdown e garantir que só um dropdown esteja visível
-        function toggleDropdown(dropdownId, buttonId) {
-            const dropdown = document.getElementById(dropdownId);
-            const isVisible = dropdown.style.display === 'block';
-            const dropdowns = document.querySelectorAll('.dropdown-content');
-            
-            // Fechar todos os dropdowns
-            dropdowns.forEach(dropdown => dropdown.style.display = 'none');
-            
-            // Alternar o dropdown do botão selecionado
-            dropdown.style.display = isVisible ? 'none' : 'block';
-            
-            // Alterar o ícone da seta
-            const arrows = document.querySelectorAll('.dropdown-icon');
-            arrows.forEach(arrow => arrow.style.transform = 'rotate(0deg)');
-            const arrow = document.getElementById(buttonId + 'Arrow');
-            arrow.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
-        }
-
-        // Substituir o texto do botão de ônibus
-        function selectBusOption(option) {
-            document.getElementById('busButtonText').innerText = option;
-            toggleDropdown('busDropdown', 'bus');
-        }
-
-        // Substituir o texto do botão de paradas
-        function selectStopOption(option) {
-            document.getElementById('stopButtonText').innerText = option;
-            toggleDropdown('stopDropdown', 'stop');
-        }
-
-        // Abre ou fecha o dropdown de ônibus
-        document.getElementById('busButton').addEventListener('click', function() {
-            toggleDropdown('busDropdown', 'bus');
-        });
-
-        // Abre ou fecha o dropdown de paradas
-        document.getElementById('stopButton').addEventListener('click', function() {
-            toggleDropdown('stopDropdown', 'stop');
-        });
-
-        // Fecha os dropdowns se o usuário clicar fora deles
-        window.addEventListener('click', function(event) {
-            if (!event.target.matches('#busButton') && !event.target.matches('#stopButton')) {
-                const dropdowns = document.querySelectorAll('.dropdown-content');
-                dropdowns.forEach(dropdown => dropdown.style.display = 'none');
-            }
-        });
-    </script>
+    <script type="module" src="../../../src/js/app-student/location/map.js" type="module" defer></script>
+    <script src="../../../src/js/app-student/location/dropdown.js" type="module" defer></script> <!-- Novo arquivo JS -->
 </body>
 </html>
