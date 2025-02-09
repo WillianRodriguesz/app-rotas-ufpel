@@ -1,4 +1,4 @@
-const motoristaService = require('../services/user/userService.js');
+const usuarioService = require('../services/user/userService.js');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -13,7 +13,7 @@ async function autenticarUsuario(req, res) {
             return res.status(400).json({ message: 'Email e senha são obrigatórios.' });
         }
 
-        const motorista = await motoristaService.obterMotoristaPorEmail(email);
+        const motorista = await usuarioService.obterUsuarioPorEmail(email);
 
         if (!motorista) {
             return res.status(404).json({ message: 'Usuário não encontrado.' });

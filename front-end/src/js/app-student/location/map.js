@@ -1,5 +1,5 @@
-import mockLocations from "./mocks/location.js";
-import paradas from "./mocks/paradas.js";
+import mockLocations from "../../mocks/location.js";
+import paradas from "../../mocks/paradas.js";
 
 const map = L.map('map').setView([-31.780832297261984, -52.323695006471866], 20); 
 

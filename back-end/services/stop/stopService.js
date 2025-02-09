@@ -1,4 +1,4 @@
-const { Parada } = require('../../models/stopModel'); 
+const  Parada  = require('../../models/stopModel'); 
 
 async function criarParada(nome, latitude, longitude) {
     try {

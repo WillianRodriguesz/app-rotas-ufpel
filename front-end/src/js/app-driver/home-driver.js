@@ -1,4 +1,4 @@
-import { startGeolocation, clearGeolocation, getCurrentLocation } from '../../services/geolocationService.js';
+import { startGeolocation, clearGeolocation, getCurrentLocation } from '../../../services/geolocationService.js';
 
 document.addEventListener("DOMContentLoaded", function () {
     const button = document.querySelector(".driverButton");
