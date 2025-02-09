@@ -12,7 +12,7 @@ let routes = [];
 
 const customIcon = L.icon({
     iconUrl: '/public/img/iconBus.png', 
-    iconSize: [60, 60],         
+    iconSize: [58, 60],         
     iconAnchor: [30, 30],       
     popupAnchor: [0, -32]       
 });
