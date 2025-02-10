@@ -76,5 +76,4 @@ function simulateLocationUpdates() {
     }, 2000); // Atualiza a cada 2 segundos
 }
 
-// Inicia a simulação de atualizações de localização
 simulateLocationUpdates();

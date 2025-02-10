@@ -1,13 +1,8 @@
-const Route = require('../../models/routeModel.js');
-const RouteStop = require('../../models/routeStopModel.js');
-const Stop = require('../../models/stopModel.js');
-const Schedule = require('../../models/scheduleModel.js');
+const Rota = require('../../models/routeModel');
 
 async function inserirRota(nome) {
     try {
-        const rota = await Route.create({
-            name: nome
-        });
+        const rota = await Rota.create({ nome });
         return rota;
     } catch (erro) {
         console.error('Erro ao inserir rota:', erro);
@@ -17,15 +12,7 @@ async function inserirRota(nome) {
 
 async function obterRotas() {
     try {
-        const rotas = await Route.findAll({
-            include: [
-                {
-                    model: Stop,
-                    through: { attributes: [] }
-                },
-                Schedule
-            ]
-        });
+        const rotas = await Rota.findAll();
         return rotas;
     } catch (erro) {
         console.error('Erro ao listar rotas:', erro);
@@ -35,16 +22,11 @@ async function obterRotas() {
 
 async function obterRotaPorId(id) {
     try {
-        const rota = await Route.findOne({
-            where: { id },
-            include: [
-                {
-                    model: Stop,
-                    through: { attributes: [] }
-                },
-                Schedule
-            ]
-        });
+        const rota = await Rota.findByPk(id);
+        if (!rota) {
+            console.log('Rota não encontrada');
+            return null;
+        }
         return rota;
     } catch (erro) {
         console.error('Erro ao buscar rota:', erro);
@@ -54,13 +36,13 @@ async function obterRotaPorId(id) {
 
 async function atualizarRota(id, nome) {
     try {
-        const rota = await Route.findByPk(id);
+        const rota = await Rota.findByPk(id);
         if (!rota) {
             console.log('Rota não encontrada');
             return null;
         }
 
-        rota.name = nome;
+        rota.nome = nome;
         await rota.save();
         return rota;
     } catch (erro) {
@@ -71,7 +53,7 @@ async function atualizarRota(id, nome) {
 
 async function excluirRota(id) {
     try {
-        const rota = await Route.findByPk(id);
+        const rota = await Rota.findByPk(id);
         if (!rota) {
             console.log('Rota não encontrada');
             return null;

@@ -1,20 +1,19 @@
-import paradaService from '../../../../services/stopService.js';
+import paradaService from '../../../../services/stopService.js';  // Serviço de paradas
+import routeService from '../../../../services/routeService.js';  // Serviço de rotas
 
+// Função para carregar as paradas no dropdown
 async function carregarParadasNoDropdown() {
     const dropdown = document.getElementById('stopDropdown');
     const resultado = await paradaService.listarParadas();
 
     if (resultado.success) {
-        // Limpa o dropdown antes de adicionar as novas paradas
         dropdown.innerHTML = '';
 
-        // Adiciona uma opção padrão (caso não haja paradas)
         const optionDefault = document.createElement('button');
         optionDefault.classList.add('w-full', 'text-left', 'p-2', 'text-sm', 'text-gray-500', 'hover:bg-gray-100');
         optionDefault.textContent = 'Selecione uma parada';
         dropdown.appendChild(optionDefault);
 
-        // Adiciona as paradas ao dropdown
         resultado.data.forEach(parada => {
             const option = document.createElement('button');
             option.classList.add('w-full', 'text-left', 'p-2', 'text-sm', 'hover:bg-gray-100');
@@ -27,7 +26,32 @@ async function carregarParadasNoDropdown() {
     }
 }
 
-// Função para alternar o dropdown e garantir que só um dropdown esteja visível
+// Função para carregar as rotas no dropdown
+async function carregarRotasNoDropdown() {
+    const dropdown = document.getElementById('busDropdown');
+    const resultado = await routeService.listarRotas();
+
+    if (resultado.success) {
+        dropdown.innerHTML = '';
+
+        const optionDefault = document.createElement('button');
+        optionDefault.classList.add('w-full', 'text-left', 'p-2', 'text-sm', 'text-gray-500', 'hover:bg-gray-100');
+        optionDefault.textContent = 'Selecione uma rota';
+        dropdown.appendChild(optionDefault);
+
+        resultado.data.forEach(rota => {
+            const option = document.createElement('button');
+            option.classList.add('w-full', 'text-left', 'p-2', 'text-sm', 'hover:bg-gray-100');
+            option.textContent = rota.nome;
+            option.onclick = () => selectRouteOption(rota.nome);
+            dropdown.appendChild(option);
+        });
+    } else {
+        console.error('Erro ao carregar as rotas:', resultado.message);
+    }
+}
+
+// Função para alternar a visibilidade do dropdown
 function toggleDropdown(dropdownId, buttonId) {
     const dropdown = document.getElementById(dropdownId);
     const isVisible = dropdown.style.display === 'block';
@@ -46,16 +70,24 @@ function toggleDropdown(dropdownId, buttonId) {
     }
 }
 
-// Substituir o texto do botão de paradas
+// Função para selecionar a opção da parada
 function selectStopOption(option) {
     const selectedOption = option; 
     document.getElementById('stopButtonText').innerText = selectedOption; 
     toggleDropdown('stopDropdown', 'stop'); 
 }
 
+// Função para selecionar a opção da rota
+function selectRouteOption(option) {
+    const selectedOption = option; 
+    document.getElementById('busButtonText').innerText = selectedOption; 
+    toggleDropdown('busDropdown', 'bus'); 
+}
+
 // Event Listeners
 document.addEventListener("DOMContentLoaded", function() {
-    carregarParadasNoDropdown();
+    carregarParadasNoDropdown();  // Carrega as paradas ao carregar a página
+    carregarRotasNoDropdown();   // Carrega as rotas ao carregar a página
 
     document.getElementById('busButton').addEventListener('click', function() {
         toggleDropdown('busDropdown', 'bus');
