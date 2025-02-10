@@ -70,10 +70,27 @@ async function excluirRotaParada(req, res) {
     }
 }
 
+async function obterParadasPorRota(req, res) {
+    try {
+        const { rotaId } = req.params;  
+        const paradas = await routeStopService.obterParadasPorRota(rotaId); 
+
+        if (!paradas) {
+            return res.status(404).json({ mensagem: 'Nenhuma parada encontrada para esta rota' });
+        }
+
+        res.status(200).json(paradas); 
+    } catch (erro) {
+        console.error('Erro ao buscar paradas da rota:', erro);
+        res.status(500).json({ mensagem: 'Erro ao buscar paradas da rota' });
+    }
+}
+
 module.exports = { 
     criarRotaParada, 
     listarRotasParadas, 
     obterRotaParadaPorId, 
     atualizarRotaParada, 
-    excluirRotaParada 
+    excluirRotaParada, 
+    obterParadasPorRota 
 };

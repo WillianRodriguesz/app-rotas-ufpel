@@ -1,3 +1,4 @@
+const sequelize = require('../../config/config');
 const RouteStop = require('../../models/routeStopModel.js');
 const Route = require('../../models/routeModel.js');
 const Stop = require('../../models/stopModel.js');
@@ -89,7 +90,47 @@ async function excluirRotaParada(id) {
     }
 }
 
-module.exports = { 
+async function obterParadasPorRota(rotaId) {
+    try {
+        const query = `
+            SELECT DISTINCT 
+                p.id AS parada_id,
+                p.nome AS parada_nome,
+                p.latitude,
+                p.longitude
+            FROM rotas r
+            LEFT JOIN rota_paradas rp ON r.id = rp.rota_id
+            LEFT JOIN paradas p ON rp.parada_id = p.id
+            WHERE r.id = :rotaId;
+        `;
+
+        const resultados = await sequelize.query(query, {
+            replacements: { rotaId },
+            type: sequelize.QueryTypes.SELECT
+        });
+
+        const jsonResponse = {
+            rotaId: rotaId,
+            paradas: resultados.map(parada => ({
+                parada_id: parada.parada_id,
+                parada_nome: parada.parada_nome,
+                coordenadas: {
+                    latitude: parada.latitude,
+                    longitude: parada.longitude
+                }
+            }))
+        };
+
+        console.log('Resposta estruturada:', jsonResponse);
+
+        return jsonResponse;
+    } catch (erro) {
+        console.error('Erro ao buscar paradas da rota:', erro);
+        throw erro;
+    }
+}
+module.exports = {
+    obterParadasPorRota, 
     inserirRotaParada, 
     listarRotasParadas, 
     obterRotaParadaPorId, 

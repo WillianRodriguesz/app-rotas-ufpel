@@ -10,7 +10,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 let markers = [];
 let routes = [];
 
-const customIcon = L.icon({
+const busIcon = L.icon({
     iconUrl: '/public/img/iconBus.png', 
     iconSize: [58, 60],         
     iconAnchor: [30, 30],       
@@ -27,7 +27,7 @@ const paradaIcon = L.icon({
 
 // Função para adicionar um marcador
 function addMarker(lat, lon, message, useCustomIcon = false, icon = undefined) {
-    const markerIcon = useCustomIcon ? customIcon : icon;
+    const markerIcon = useCustomIcon ? busIcon : icon;
     const marker = L.marker([lat, lon], { icon: markerIcon }).addTo(map);
     marker.bindPopup(message); 
     marker.on('click', () => {
@@ -68,7 +68,7 @@ function simulateLocationUpdates() {
         if (currentLocationIndex < mockLocations.length) {
             const newLatLng = mockLocations[currentLocationIndex];
             marker.setLatLng(newLatLng); 
-            map.panTo(newLatLng);       
+            //map.panTo(newLatLng);       
             currentLocationIndex++;    
         } else {
             currentLocationIndex = 0; 

@@ -91,6 +91,10 @@ const paradaService = {
             console.error('Erro ao excluir parada:', error);
             return { success: false, message: 'Erro inesperado, tente novamente mais tarde.' };
         }
+    },
+
+    async obterParadasPorRotaId(idRota){
+        
     }
 };
 
