@@ -93,8 +93,20 @@ const paradaService = {
         }
     },
 
-    async obterParadasPorRotaId(idRota){
-        
+    async obterParadasPorRotaId(idRota) {
+        try {
+            const response = await fetch(`/rotas/${idRota}/paradas`);
+            const result = await response.json();
+    
+            if (response.ok) {
+                return { success: true, data: result };
+            } else {
+                return { success: false, message: result.message };
+            }
+        } catch (error) {
+            console.error('Erro ao obter paradas por rota:', error);
+            return { success: false, message: 'Erro inesperado, tente novamente mais tarde.' };
+        }
     }
 };
 
