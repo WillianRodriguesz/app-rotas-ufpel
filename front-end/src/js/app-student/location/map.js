@@ -79,6 +79,50 @@ export function localizarParada(lat, lon, zoomLevel = 18) {
         console.warn("Nenhum marcador encontrado para as coordenadas:", lat, lon);
     }
 }
+
+// Função para calcular o tamanho do ícone com base no zoom
+function getIconSize(zoom) {
+    const baseSizeBus = 58; 
+    const baseSizeParadaWidth = 38; 
+    const baseSizeParadaHeight = 58; 
+    const scaleFactor = Math.pow(1.1, zoom - 20); 
+
+    // Tamanhos ajustados com base no zoom
+    const busSize = [baseSizeBus * scaleFactor, baseSizeBus * scaleFactor];
+    const paradaSize = [baseSizeParadaWidth * scaleFactor, baseSizeParadaHeight * scaleFactor]; 
+
+    return { busSize, paradaSize }; 
+}
+
+// Função para atualizar o tamanho dos ícones com base no zoom
+function updateIconSizes() {
+    let zoom = map.getZoom(); 
+    const { busSize, paradaSize } = getIconSize(zoom); 
+
+    // Atualiza os ícones do ônibus
+    markersBus.forEach(marker => {
+        marker.setIcon(L.icon({
+            iconUrl: '/public/img/iconBus.png',
+            iconSize: busSize,
+            iconAnchor: [busSize[0] / 2, busSize[1] / 2], // Centraliza o ícone
+            popupAnchor: [0, -busSize[1] / 2] // Ajuste do popup com base no novo tamanho
+        }));
+    });
+
+    // Atualiza os ícones das paradas
+    markersParadas.forEach(marker => {
+        marker.setIcon(L.icon({
+            iconUrl: '/public/img/iconParada.png',
+            iconSize: paradaSize,
+            iconAnchor: [paradaSize[0] / 2, paradaSize[1] / 2], // Centraliza o ícone
+            popupAnchor: [-5 * (paradaSize[0] / 47), -12 * (paradaSize[1] / 25)] // Ajuste proporcional do popup
+        }));
+    });
+}
+
+// Ouvinte de evento para atualizar os ícones ao mudar o zoom
+map.on('zoomend', updateIconSizes);
+
 // Função para simular atualizações de localização
 let currentLocationIndex = 0;
 function simulateLocationUpdates() {
