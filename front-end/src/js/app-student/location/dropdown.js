@@ -1,5 +1,7 @@
 import paradaService from '../../../../services/stopService.js';  // Serviço de paradas
 import routeService from '../../../../services/routeService.js';  // Serviço de rotas
+import { addParadasMapa } from './map.js';
+
 
 // Função para carregar as paradas no dropdown
 async function carregarParadasNoDropdown() {
@@ -57,7 +59,6 @@ async function carregarParadasPorRota(idRota) {
     console.log("Paradas carregadas:", resultado); // 🔍 Depuração
 
     if (resultado.success) {
-        // Verifica se resultado.data é um array ou se está dentro de outra chave
         const paradas = Array.isArray(resultado.data) ? resultado.data : resultado.data.paradas || [];
 
         if (paradas.length === 0) {
@@ -71,6 +72,8 @@ async function carregarParadasPorRota(idRota) {
             option.onclick = () => selectStopOption(parada.nome_nome);
             dropdown.appendChild(option);
         });
+
+        addParadasMapa(paradas)
     } else {
         console.error('Erro ao carregar as paradas da rota:', resultado.message || resultado);
     }
