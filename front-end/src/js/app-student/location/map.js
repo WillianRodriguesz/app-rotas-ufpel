@@ -63,6 +63,22 @@ export function addParadasMapa(paradas) {
     });
 }
 
+export function localizarParada(lat, lon, zoomLevel = 18) {
+    map.setView([lat, lon], zoomLevel);
+
+    const tolerance = 0.0001; // Pequena margem de erro para comparar coordenadas
+    const marker = markersParadas.find(m => {
+        const { lat: markerLat, lng: markerLng } = m.getLatLng();
+        return Math.abs(markerLat - lat) < tolerance && Math.abs(markerLng - lon) < tolerance;
+    });
+
+    if (marker) {
+        console.log("Marcador encontrado:", marker.getLatLng()); 
+        marker.openPopup();
+    } else {
+        console.warn("Nenhum marcador encontrado para as coordenadas:", lat, lon);
+    }
+}
 // Função para simular atualizações de localização
 let currentLocationIndex = 0;
 function simulateLocationUpdates() {
