@@ -7,5 +7,7 @@ router.get('/buscar/rotas', routeController.listarRotas);
 router.get('/rotas/:id', routeController.obterRotaPorId);
 router.put('/rotas/:id', routeController.atualizarRota);
 router.delete('/rotas/:id', routeController.excluirRota);
+router.get('/rotas/:id/horarios', routeController.listarRotasPorHorario); 
+
 
 module.exports = router;

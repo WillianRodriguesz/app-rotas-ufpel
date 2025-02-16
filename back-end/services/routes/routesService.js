@@ -1,3 +1,4 @@
+const sequelize = require('../../config/config');
 const Rota = require('../../models/routeModel');
 
 async function inserirRota(nome) {
@@ -67,4 +68,62 @@ async function excluirRota(id) {
     }
 }
 
-module.exports = { inserirRota, obterRotas, obterRotaPorId, atualizarRota, excluirRota };
+// Adicionando a consulta personalizada para buscar rotas, paradas e horários
+async function obterDetalhesRotaComParadasEHorario(id) {
+    try {
+        const query = `
+            SELECT 
+                r.id AS rota_id,
+                r.nome AS rota_nome,
+                p.id AS parada_id,
+                p.nome AS parada_nome,
+                rp.ordem,
+                h.horario
+            FROM 
+                rotas r
+            JOIN 
+                rota_paradas rp ON r.id = rp.rota_id
+            JOIN 
+                paradas p ON rp.parada_id = p.id
+            LEFT JOIN 
+                horarios h ON r.id = h.rota_id
+            WHERE 
+                r.id = :rotaId
+            ORDER BY 
+                h.horario, rp.ordem;
+        `;
+
+        const resultados = await sequelize.query(query, {
+            replacements: { rotaId: id },
+            type: sequelize.QueryTypes.SELECT
+        });
+
+        const jsonResponse = {
+            rotaId: id,
+            rotas: resultados.map(result => ({
+                rota_id: result.rota_id,
+                rota_nome: result.rota_nome,
+                parada_id: result.parada_id,
+                parada_nome: result.parada_nome,
+                ordem: result.ordem,
+                horario: result.horario
+            }))
+        };
+
+        console.log('Detalhes da Rota:', jsonResponse);
+        return jsonResponse;
+
+    } catch (erro) {
+        console.error('Erro ao obter detalhes da rota com paradas e horários:', erro);
+        throw erro;
+    }
+}
+
+module.exports = { 
+    inserirRota, 
+    obterRotas, 
+    obterRotaPorId, 
+    atualizarRota, 
+    excluirRota,
+    obterDetalhesRotaComParadasEHorario  
+};

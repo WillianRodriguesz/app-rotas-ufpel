@@ -71,4 +71,23 @@ async function excluirRota(req, res) {
     }
 }
 
-module.exports = { criarRota, listarRotas, obterRotaPorId, atualizarRota, excluirRota };
+async function listarRotasPorHorario(req, res) {
+    try {
+        const { id } = req.params; 
+        const rotasPorHorario = await routeService.obterDetalhesRotaComParadasEHorario(id); 
+
+        return res.status(200).json(rotasPorHorario); 
+    } catch (erro) {
+        console.error('Erro ao listar rotas por horário:', erro);
+        return res.status(500).json({ mensagem: 'Erro ao listar rotas por horário', erro });
+    }
+}
+
+module.exports = { 
+    criarRota, 
+    listarRotas, 
+    obterRotaPorId, 
+    atualizarRota, 
+    excluirRota, 
+    listarRotasPorHorario 
+};
