@@ -10,11 +10,15 @@
 <body class=" h-screen flex flex-col">
 
     <!-- Cabeçalho -->
-    <div class="flex items-center justify-between p-4 shadow-md">
-        <!-- Link para redirecionar para /home/login ao clicar na logo -->
+    <div class="flex items-center justify-between p-2 bg-white shadow-md">
+        <!-- Botão de Voltar -->
+    <button onclick="window.history.back()" class="text-yellow-500 hover:text-yellow-700 p-3">
+        <i class="fa-solid fa-arrow-left text-2xl"></i>
+    </button>
+        <!-- Logo -->
         <a href="/">
             <img src="/public/img/logo2.png" alt="Logo" class="w-40 h-auto"> 
-        </a>
+        </a> 
     </div>
 
     <!-- Imagem e Texto de Introdução -->

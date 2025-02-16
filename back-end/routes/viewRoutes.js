@@ -17,6 +17,11 @@ router.get('/rotas', (req, res) => {
     res.sendFile(filePath);
 });
 
+router.get('/rotas/detalhes', (req, res) => {
+    const filePath = path.resolve(__dirname, '../../front-end/public/pages/home/rotas-horarios.html');
+    res.sendFile(filePath);
+});
+
 router.get('/inicio', (req, res) => {
     const filePath = path.resolve(__dirname, '../../front-end/public/pages/home/inicio.html');
     res.sendFile(filePath);

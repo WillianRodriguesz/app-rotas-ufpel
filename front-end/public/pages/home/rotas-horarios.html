@@ -5,18 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Inicial</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- CDN para FontAwesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="bg-gray-100 h-screen flex flex-col">
 
     <!-- Cabeçalho -->
-    <div class="flex items-center justify-end p-1 bg-white shadow-md">
+    <div class="flex items-center justify-between p-2 bg-white shadow-md">
+        <!-- Botão de Voltar -->
+    <button onclick="window.history.back()" class="text-yellow-500 hover:text-yellow-700 p-3">
+        <i class="fa-solid fa-arrow-left text-2xl"></i>
+    </button>
+        <!-- Logo -->
         <a href="/">
             <img src="/public/img/logo2.png" alt="Logo" class="w-40 h-auto"> 
         </a> 
     </div>
-
-    <!-- Barra de Pesquisa com Ícone na Direita -->
+    
+    <!-- Barra de Pesquisa -->
     <div class="p-2 bg-white shadow-md">
         <div class="relative">
             <input 
@@ -29,18 +35,34 @@
             </span>
         </div>
     </div>
-        
+    
     <!-- Conteúdo Principal -->
     <main class="flex-grow p-4 space-y-4">
-        <!-- Card 1 -->
-        <div class="bg-white shadow-md rounded-lg p-4 flex items-center justify-between cursor-pointer hover:shadow-lg">
-            <div>
-                <h2 class="text-lg font-bold text-gray-800">Anglo</h2>
-                <p class="text-sm text-gray-600">
-                    Clique para ver as rotas e os horários dessa linha
-                </p>
+        <h2 class="text-lg font-bold text-blue-600">Horários e Paradas:</h2>
+
+        <!-- Card com horários e paradas -->
+        <div class="bg-white shadow-md rounded-lg p-4">
+            <h3 class="text-lg font-bold text-gray-800">CEU | UCPel → Anglo</h3>
+            <div class="mt-2 space-y-4">
+                
+                <!-- Horário com ícone de relógio e separação superior -->
+                <div class="border-t pt-4">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-clock text-blue-600 text-lg"></i>
+                        <span class="text-blue-600 font-bold text-lg">07:30</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-1">Paradas: CEU → UCPel → Odonto → ALM → Campus II → FaUrb → Cotada → CEIQ → Anglo</p>
+                </div>
+
+                <div class="border-t pt-4">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-clock text-blue-600 text-lg"></i>
+                        <span class="text-blue-600 font-bold text-lg">08:00</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-1">Paradas: UCPel → Odonto → ALM → Campus II → FaUrb → Cotada → CEIQ → Anglo</p>
+                </div>
+
             </div>
-            <i class="fa-solid fa-arrow-right text-yellow-500 text-xl"></i>
         </div>
     </main>
     
