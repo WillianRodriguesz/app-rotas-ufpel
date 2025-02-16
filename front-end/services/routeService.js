@@ -96,6 +96,22 @@ const routeService = {
             console.error('Erro ao excluir rota:', error);
             return { success: false, message: 'Erro inesperado, tente novamente mais tarde.' };
         }
+    },
+
+    async listarHorariosPorRota(id) {
+        try {
+            const response = await fetch(`/rotas/${id}/horarios`);
+            const result = await response.json();
+
+            if (response.ok) {
+                return { success: true, data: result };
+            } else {
+                return { success: false, message: result.message };
+            }
+        } catch (error) {
+            console.error('Erro ao buscar horários da rota:', error);
+            return { success: false, message: 'Erro inesperado, tente novamente mais tarde.' };
+        }
     }
 };
 
