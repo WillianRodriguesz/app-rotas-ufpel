@@ -1,6 +1,8 @@
 import routeService from '../../../../services/routeService.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+    const searchInput = document.getElementById('searchInput'); // Input de busca
+
     function obterIdRotaDaUrl() {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get('id');
@@ -71,6 +73,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('ID da rota não encontrado na URL');
         }
     }
+
+    // Função para filtrar horários e paradas com base na pesquisa
+    function filtrarHorariosEPardas() {
+        const searchTerm = searchInput.value.toLowerCase(); // Obtém o termo da busca
+        const containerHorarios = document.querySelector('.mt-2.space-y-4');
+        const cards = containerHorarios.querySelectorAll('div.border-t');
+
+        cards.forEach(card => {
+            const paradasText = card.querySelector('p').textContent.toLowerCase(); 
+            const horarioText = card.querySelector('span.text-blue-600').textContent.toLowerCase(); 
+
+            if (paradasText.includes(searchTerm) || horarioText.includes(searchTerm)) {
+                card.style.display = ''; // Exibe o card se o termo for encontrado
+            } else {
+                card.style.display = 'none'; // Esconde o card se o termo não for encontrado
+            }
+        });
+    }
+
+    // Adiciona o evento de pesquisa
+    searchInput.addEventListener('input', filtrarHorariosEPardas);
 
     carregarHorariosRota();
 });

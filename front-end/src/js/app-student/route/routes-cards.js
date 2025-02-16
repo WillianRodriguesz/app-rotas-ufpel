@@ -28,6 +28,22 @@ async function carregarRotas() {
 
                 container.appendChild(card);
             });
+
+            const searchInput = document.querySelector('input[type="text"]');
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                const cards = container.querySelectorAll('.bg-white');
+
+                cards.forEach(card => {
+                    const nomeRota = card.querySelector('h2').textContent.toLowerCase();
+                    if (nomeRota.includes(searchTerm)) {
+                        card.style.display = ''; 
+                    } else {
+                        card.style.display = 'none'; 
+                    }
+                });
+            });
+
         } else {
             console.error("O retorno 'data' não é um array:", rotas);
         }
