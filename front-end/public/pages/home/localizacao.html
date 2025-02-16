@@ -9,11 +9,11 @@
     <style>
         .dropdown-content {
             display: none;
-            z-index: 20; /* Garantir que o dropdown fique acima de outros elementos */
+            z-index: 20;
         }
 
         #map {
-            z-index: 10; /* Mapa com z-index menor para ficar atrás dos dropdowns */
+            z-index: 10;
         }
 
         .dropdown-button {
@@ -26,16 +26,76 @@
             width: 16px;
             height: 16px;
         }
+
+        .notification-icon {
+            width: 35px; /* Aumentando o tamanho do ícone */
+            height: 35px;
+            transition: transform 0.2s ease;
+            margin-left: 12px; /* Deslocando o ícone para a direita */
+        }
+
+        .notification-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background-color: red;
+            color: white;
+            font-size: 12px;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            /* Adicionando a animação */
+            animation: blink 1s infinite; /* Faz a bolinha piscar a cada 1 segundo */
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Garantir que o ícone de notificação fique sozinho na esquerda */
+        .header-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 160px;
+            height: auto;
+        }
     </style>
 </head>
 <body class="bg-gray-100 h-screen flex flex-col">
 
-        <!-- Cabeçalho -->
-    <div class="flex items-center justify-end p-2 bg-white shadow-md">
-        <!-- Logo alinhada à direita -->
+    <!-- Cabeçalho -->
+    <div class="flex items-center justify-between p-2 bg-white shadow-md">
+        <!-- Ícone de notificação à esquerda -->
+        <div class="relative">
+            <svg xmlns="http://www.w3.org/2000/svg" class="notification-icon text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2 2 0 0018 14V10a6 6 0 10-12 0v4a2 2 0 00-1.595 1.595L4 17h5m6 0a3 3 0 11-6 0m6 0H9" />
+            </svg>
+            <div class="notification-badge">3</div>
+        </div>
+
+        <!-- Logo à direita -->
         <a href="/">
-            <img src="/public/img/logo2.png" alt="Logo" class="w-40 h-auto"> 
-        </a> 
+            <img src="/public/img/logo2.png" alt="Logo" class="logo">
+        </a>
     </div>
 
     <div class="flex flex-col space-y-4 px-4 pb-4  bg-white shadow-md">
@@ -65,7 +125,7 @@
     </div>
 
     <!-- Mapa -->
-    <div id="map" class="bg-gray-200" style="height: 600px;"></div> 
+    <div id="map" class="bg-gray-200" style="height: 600px;"></div>
 
     <!-- Menu -->
     <div class="flex justify-between items-center fixed bottom-0 w-full shadow-lg py-3 px-4 md:hidden z-10">
