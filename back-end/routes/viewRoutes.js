@@ -37,5 +37,15 @@ router.get('/localizacao/motorista', (req, res) => {
     res.sendFile(filePath);
 });
 
+router.get('/painel', (req, res) => {
+    const filePath = path.resolve(__dirname, '../../front-end/public/pages/admin/home.html');
+    res.sendFile(filePath);
+});
+
+router.get('/painel/usuarios', (req, res) => {
+    const filePath = path.resolve(__dirname, '../../front-end/public/pages/admin/users/users.html');
+    res.sendFile(filePath);
+});
+
 
 module.exports = router;

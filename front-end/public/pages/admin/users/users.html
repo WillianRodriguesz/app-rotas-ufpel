@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de Usuários</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col">
+    
+    <!-- Cabeçalho -->
+    <div class="flex items-center justify-between p-2 bg-white shadow-md">
+        <!-- Botão de Voltar -->
+        <button onclick="window.location.href='/painel'" class="text-yellow-500 hover:text-yellow-700 p-3">
+            <i class="fa-solid fa-arrow-left text-2xl"></i>
+        </button>
+        <!-- Logo -->
+        <a href="/painel">
+            <img src="/public/img/logo2.png" alt="Logo" class="w-40 h-auto"> 
+        </a> 
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow p-4 space-y-4">
+        <!-- Adicionar Novo Usuário -->
+        <div class="bg-green-600 text-white shadow-md rounded-lg p-4 flex items-center justify-between cursor-pointer hover:shadow-lg">
+            <h2 class="text-md font-semibold">Adicionar Usuário</h2>
+            <i class="fa-solid fa-user-plus text-2xl"></i>
+        </div>
+
+        <!-- Cards de Usuários -->
+        <div class="space-y-4">
+            <!-- Card do Usuário -->
+            <div class="bg-white p-4 shadow-md rounded-lg flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <!-- Ícone de Usuário (Motorista) -->
+                    <i class="fa-solid fa-bus text-xl text-blue-600"></i> <!-- Motorista -->
+                    <!-- Nome e Email -->
+                    <div>
+                        <p class="font-semibold">João Silva</p>
+                        <p class="text-sm text-gray-500">joao@email.com</p>
+                    </div>
+                </div>
+                <!-- Ações -->
+                <div class="flex space-x-3">
+                    <button class="text-yellow-500 hover:text-yellow-700 p-2">
+                        <i class="fa-solid fa-pen text-xl"></i>
+                    </button>
+                    <button class="text-red-500 hover:text-red-700 p-2">
+                        <i class="fa-solid fa-trash text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card de Admin -->
+            <div class="bg-white p-4 shadow-md rounded-lg flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <!-- Ícone de Admin -->
+                    <i class="fa-solid fa-user-shield text-xl text-green-600"></i> <!-- Admin -->
+                    <!-- Nome e Email -->
+                    <div>
+                        <p class="font-semibold">Maria Souza</p>
+                        <p class="text-sm text-gray-500">maria@email.com</p>
+                    </div>
+                </div>
+                <!-- Ações -->
+                <div class="flex space-x-3">
+                    <button class="text-yellow-500 hover:text-yellow-700 p-2">
+                        <i class="fa-solid fa-pen text-xl"></i>
+                    </button>
+                    <button class="text-red-500 hover:text-red-700 p-2">
+                        <i class="fa-solid fa-trash text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

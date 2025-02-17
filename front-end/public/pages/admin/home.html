@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col">
+    
+    <!-- Cabeçalho -->
+    <div class="flex items-center justify-between p-2 bg-white shadow-md">
+        <!-- Botão de Voltar -->
+        <button onclick="window.location.href='/'" class="text-yellow-500 hover:text-yellow-700 p-3">
+            <i class="fa-solid fa-arrow-left text-2xl"></i>
+        </button>
+        <!-- Logo -->
+        <a href="/">
+            <img src="/public/img/logo2.png" alt="Logo" class="w-40 h-auto"> 
+        </a> 
+    </div>
+    
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow p-4 space-y-4">
+        
+        <!-- Gerenciar Usuários -->
+        <a href="/painel/usuarios" class="bg-blue-600 text-white shadow-md rounded-lg p-8 min-h-32 flex items-center justify-between cursor-pointer hover:shadow-lg">
+            <h2 class="text-md font-semibold">Gerenciar Usuários</h2>
+            <i class="fa-solid fa-user text-3xl"></i>
+        </a>
+        
+        <!-- Gerenciar Linhas -->
+        <a href="/painel" class="bg-green-600 text-white shadow-md rounded-lg p-8 min-h-32 flex items-center justify-between cursor-pointer hover:shadow-lg">
+            <h2 class="text-md font-semibold">Gerenciar Linhas</h2>
+            <i class="fa-solid fa-route text-3xl"></i>
+        </a>
+        
+        <!-- Gerenciar Paradas -->
+        <a href="/painel" class="bg-red-600 text-white shadow-md rounded-lg p-8 min-h-32 flex items-center justify-between cursor-pointer hover:shadow-lg">
+            <h2 class="text-md font-semibold">Gerenciar Paradas</h2>
+            <i class="fa-solid fa-map-marker-alt text-3xl"></i>
+        </a>
+        
+        <!-- Enviar Notificação -->
+        <a href="/painel" class="bg-yellow-600 text-white shadow-md rounded-lg p-8 min-h-32 flex items-center justify-between cursor-pointer hover:shadow-lg">
+            <h2 class="text-md font-semibold">Enviar Notificação</h2>
+            <i class="fa-solid fa-bell text-3xl"></i>
+        </a>
+        
+    </main>
+    
+</body>
+</html>
