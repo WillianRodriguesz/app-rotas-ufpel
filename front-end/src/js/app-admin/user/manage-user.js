@@ -4,6 +4,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     await carregarUsuarios();
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    const btnFecharModal = document.querySelector("#modal-editar .text-gray-500");
+    if (btnFecharModal) {
+        btnFecharModal.addEventListener("click", fecharModal);
+    }
+});
+
 async function carregarUsuarios() {
     const listaUsuarios = document.getElementById("lista-usuarios");
     listaUsuarios.innerHTML = "<p class='text-center'>Carregando usuários...</p>";
@@ -38,7 +45,7 @@ function criarCardUsuario(usuario) {
             </div>
         </div>
         <div class="flex space-x-3">
-            <button class="text-yellow-500 hover:text-yellow-700 p-2">
+            <button class="text-yellow-500 hover:text-yellow-700 p-2 btn-editar" data-id="${usuario.id_usuario}" data-email="${usuario.email}">
                 <i class="fa-solid fa-pen text-xl"></i>
             </button>
             <button class="text-red-500 hover:text-red-700 p-2 btn-excluir" data-id="${usuario.id_usuario}" data-nome="${usuario.nome}">
@@ -47,6 +54,14 @@ function criarCardUsuario(usuario) {
         </div>
     `;
 
+    // Adicionando o evento para editar
+    div.querySelector(".btn-editar").addEventListener("click", (event) => {
+        const id = event.currentTarget.getAttribute("data-id");
+        const email = event.currentTarget.getAttribute("data-email");
+        abrirModal(id, email);
+    });
+
+    // Adicionando o evento para excluir
     div.querySelector(".btn-excluir").addEventListener("click", (event) => {
         const id = event.currentTarget.getAttribute("data-id");
         const nome = event.currentTarget.getAttribute("data-nome");
@@ -84,5 +99,59 @@ async function excluirUsuario(id, nome) {
                 'error'
             );
         }
+    }
+}
+
+function abrirModal(id_usuario, email) {
+    const modal = document.getElementById("modal-editar");
+
+    // Buscar o usuário pelo id
+    userService.obterUsuarioPorEmail(email).then(usuario => {
+        document.getElementById("nome-editar").value = usuario.data.nome;
+        document.getElementById("email-editar").value = usuario.data.email;
+        document.getElementById("tipo-editar").value = usuario.data.motorista ? "motorista" : "administrador";
+
+        // Exibir o modal
+        modal.classList.remove("hidden");
+
+        // Definir o que acontece ao salvar as alterações
+        document.getElementById("form-editar-usuario").onsubmit = async (event) => {
+            event.preventDefault();
+            await editarUsuario(id_usuario);
+        };
+    }).catch(error => {
+        console.error("Erro ao carregar os dados do usuário:", error);
+    });
+}
+
+function fecharModal() {
+    console.log("Função fecharModal foi chamada");
+    const modal = document.getElementById("modal-editar");
+    modal.classList.add("hidden");
+}
+
+async function editarUsuario(id_usuario) {
+    const nome = document.getElementById("nome-editar").value;
+    const email = document.getElementById("email-editar").value;
+    const motorista = document.getElementById("tipo-editar").value === "motorista";
+
+    const usuarioData = { nome, email, motorista };
+
+    const resultado = await userService.atualizarUsuario(id_usuario, usuarioData);
+
+    if (resultado.success) {
+        Swal.fire(
+            'Atualizado!',
+            `O usuário ${nome} foi atualizado com sucesso.`,
+            'success'
+        );
+        carregarUsuarios();
+        fecharModal();
+    } else {
+        Swal.fire(
+            'Erro!',
+            `Erro ao atualizar o usuário ${nome}: ${resultado.message}`,
+            'error'
+        );
     }
 }

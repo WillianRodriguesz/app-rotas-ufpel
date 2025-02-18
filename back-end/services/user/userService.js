@@ -57,14 +57,14 @@ async function atualizarUsuario(id_usuario, nome, email, senha, motorista) {
             return null;
         }
 
-        usuario.nome = nome;
-        usuario.email = email;
-        usuario.senha = senha ? await bcrypt.hash(senha, 10) : usuario.senha;
-        usuario.motorista = motorista;
+        if (nome) usuario.nome = nome;
+        if (email) usuario.email = email;
+        if (senha) usuario.senha = await bcrypt.hash(senha, 10);
+        if (motorista !== undefined) usuario.motorista = motorista;
 
         await usuario.save();
 
-        return usuario; 
+        return usuario;
     } catch (erro) {
         console.error('Erro ao atualizar usuário:', erro);
         throw erro;
