@@ -25,9 +25,9 @@ function criarCardUsuario(usuario) {
     const div = document.createElement("div");
     div.className = "bg-white p-4 shadow-md rounded-lg flex justify-between items-center";
 
-    const icone = usuario.motorista  
-        ? '<i class="fa-solid fa-user-shield text-xl text-green-600"></i>'
-        : '<i class="fa-solid fa-bus text-xl text-blue-600"></i>';
+    const icone = usuario.motorista? 
+        '<i class="fa-solid fa-bus text-xl text-blue-600"></i>'
+        :'<i class="fa-solid fa-user-shield text-xl text-green-600"></i>';
 
     div.innerHTML = `
         <div class="flex items-center space-x-4">

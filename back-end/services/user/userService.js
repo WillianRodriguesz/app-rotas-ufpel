@@ -21,7 +21,13 @@ async function inserirUsuario(nome, email, senha, motorista) {
 
 async function obterUsuarios() {
     try {
-        const usuarios = await Usuario.findAll();
+        const usuarios = await Usuario.findAll({
+            attributes: { exclude: ['senha'] },
+            order: [
+                ['motorista', 'DESC'], 
+                ['nome', 'ASC'] 
+            ]
+        });
         return usuarios; 
     } catch (erro) {
         console.error('Erro ao listar usuários:', erro);
