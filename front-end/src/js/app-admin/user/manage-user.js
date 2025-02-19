@@ -60,7 +60,7 @@ function criarCardUsuario(usuario) {
     div.querySelector(".btn-editar").addEventListener("click", (event) => {
         const id = event.currentTarget.getAttribute("data-id");
         const email = event.currentTarget.getAttribute("data-email");
-        abrirModal(id, email);
+        abrirModalEditarUsuario(id, email);
     });
 
     // Adicionando o evento para excluir
@@ -104,27 +104,32 @@ async function excluirUsuario(id, nome) {
     }
 }
 
-function abrirModal(id_usuario, email) {
+function abrirModalEditarUsuario(id_usuario, email) {
     const modal = document.getElementById("modal-editar");
 
-    // Buscar o usuário pelo id
     userService.obterUsuarioPorEmail(email).then(usuario => {
         document.getElementById("nome-editar").value = usuario.data.nome;
         document.getElementById("email-editar").value = usuario.data.email;
         document.getElementById("tipo-editar").value = usuario.data.motorista ? "motorista" : "administrador";
 
-        // Exibir o modal
         modal.classList.remove("hidden");
 
-        // Definir o que acontece ao salvar as alterações
         document.getElementById("form-editar-usuario").onsubmit = async (event) => {
             event.preventDefault();
             await editarUsuario(id_usuario);
         };
+
+        document.getElementById("btn-cancelar-editar").addEventListener("click", fecharModalEditar);
     }).catch(error => {
         console.error("Erro ao carregar os dados do usuário:", error);
     });
 }
+
+// Função para fechar o modal
+function fecharModalEditar() {
+    document.getElementById("modal-editar").classList.add("hidden");
+}
+
 
 async function editarUsuario(id_usuario) {
     const nome = document.getElementById("nome-editar").value;
@@ -142,7 +147,7 @@ async function editarUsuario(id_usuario) {
             'success'
         );
         carregarUsuarios();
-        fecharModal();
+        fecharModalEditar();
     } else {
         Swal.fire(
             'Erro!',
@@ -150,11 +155,6 @@ async function editarUsuario(id_usuario) {
             'error'
         );
     }
-}
-
-function fecharModal() {
-    const modal = document.getElementById("modal-editar");
-    modal.classList.add("hidden");
 }
 
 document.getElementById("search").addEventListener("input", (event) => {
