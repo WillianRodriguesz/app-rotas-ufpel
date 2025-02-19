@@ -89,7 +89,7 @@ function configurarEventosModais() {
     if (addUsuarioModal && modalAdicionar) {
         addUsuarioModal.addEventListener("click", () => {
             modalAdicionar.classList.remove("hidden");
-            configurarAdicionarUsuario(); // Configurar evento apenas quando o modal for aberto
+            configurarAdicionarUsuario(); 
         });
         btnCancelarAdicionar.addEventListener("click", () => modalAdicionar.classList.add("hidden"));
     }
@@ -101,6 +101,14 @@ function configurarEventosModais() {
 
 function configurarAdicionarUsuario() {
     const formAdicionar = document.getElementById("form-adicionar-usuario");
+    const nomeElement = document.getElementById("nome");
+    const emailElement = document.getElementById("email");
+    const tipoElement = document.getElementById("tipo");
+
+    if (nomeElement) nomeElement.value = '';
+    if (emailElement) emailElement.value = '';
+    if (tipoElement) tipoElement.value = '';
+
     if (formAdicionar) {
         formAdicionar.onsubmit = adicionarUsuario;
     }
@@ -119,7 +127,7 @@ function configurarBuscaUsuarios() {
 async function adicionarUsuario(event) {
     event.preventDefault();
 
-    const nomeElement = document.getElementById("nome"); // alterado de "nome-adicionar" para "nome"
+    const nomeElement = document.getElementById("nome"); 
     const emailElement = document.getElementById("email");
     const tipoElement = document.getElementById("tipo");
 
