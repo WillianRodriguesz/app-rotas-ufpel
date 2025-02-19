@@ -21,11 +21,21 @@
         </a> 
     </div>
 
-    <!-- Barra de Pesquisa -->
-    <div class="relative flex items-center bg-white pl-4 pr-4 pb-4 rounded-lg w-full max-w-full mx-auto mt-4 shadow-md">
-        <input type="text" id="search" class="w-full p-2 pl-10 pr-12 text-left rounded-lg text-gray-700 border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pesquisar usuário por nome">
-        <i class="fa-solid fa-search text-xl text-blue-500 absolute right-6"></i>
+    <!-- Barra de Pesquisa com Ícone na Direita -->
+    <div class="p-2 bg-white shadow-md">
+        <div class="relative">
+            <input 
+                type="text" 
+                id="search" 
+                placeholder="Pesquisar usuário por nome ou email" 
+                class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-500 focus:outline-none pr-10"
+            />
+            <span class="absolute inset-y-0 right-3 flex items-center text-gray-400">
+                <i class="fa-solid fa-magnifying-glass text-lg"></i>
+            </span>
+        </div>
     </div>
+
     
     <!-- Conteúdo Principal -->
     <main class="flex-grow p-4 space-y-6">

@@ -4,12 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await carregarUsuarios();
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    const btnFecharModal = document.querySelector("#modal-editar .text-gray-500");
-    if (btnFecharModal) {
-        btnFecharModal.addEventListener("click", fecharModal);
-    }
-});
+let usuarios = [];
 
 async function carregarUsuarios() {
     const listaUsuarios = document.getElementById("lista-usuarios");
@@ -22,8 +17,15 @@ async function carregarUsuarios() {
         return;
     }
 
-    listaUsuarios.innerHTML = "";
-    resposta.data.forEach(usuario => {
+    usuarios = resposta.data; // Armazenando os usuários para uso na busca
+    listarUsuarios(usuarios);
+}
+
+function listarUsuarios(usuarios) {
+    const listaUsuarios = document.getElementById("lista-usuarios");
+    listaUsuarios.innerHTML = ""; // Limpar a lista antes de preencher
+
+    usuarios.forEach(usuario => {
         listaUsuarios.appendChild(criarCardUsuario(usuario));
     });
 }
@@ -124,12 +126,6 @@ function abrirModal(id_usuario, email) {
     });
 }
 
-function fecharModal() {
-    console.log("Função fecharModal foi chamada");
-    const modal = document.getElementById("modal-editar");
-    modal.classList.add("hidden");
-}
-
 async function editarUsuario(id_usuario) {
     const nome = document.getElementById("nome-editar").value;
     const email = document.getElementById("email-editar").value;
@@ -155,3 +151,18 @@ async function editarUsuario(id_usuario) {
         );
     }
 }
+
+function fecharModal() {
+    const modal = document.getElementById("modal-editar");
+    modal.classList.add("hidden");
+}
+
+document.getElementById("search").addEventListener("input", (event) => {
+    const termoBusca = event.target.value.toLowerCase();
+
+    const usuariosFiltrados = usuarios.filter(usuario => {
+        return usuario.nome.toLowerCase().includes(termoBusca) || usuario.email.toLowerCase().includes(termoBusca);
+    });
+
+    listarUsuarios(usuariosFiltrados); 
+});
