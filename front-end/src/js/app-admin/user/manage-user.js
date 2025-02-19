@@ -148,3 +148,34 @@ function fecharModalAdicionar() {
     const modalAdicionar = document.getElementById("modal-adicionar");
     modalAdicionar.classList.add("hidden");
 }
+
+function abrirModalEditarUsuario(id_usuario, email) {
+    const modal = document.getElementById("modal-editar");
+    userService.obterUsuarioPorEmail(email).then(usuario => {
+        document.getElementById("nome-editar").value = usuario.data.nome;
+        document.getElementById("email-editar").value = usuario.data.email;
+        document.getElementById("tipo-editar").value = usuario.data.motorista ? "motorista" : "administrador";
+        modal.classList.remove("hidden");
+        document.getElementById("form-editar-usuario").onsubmit = (event) => editarUsuario(event, id_usuario);
+    }).catch(error => console.error("Erro ao carregar os dados do usuário:", error));
+}
+
+async function editarUsuario(event, id_usuario) {
+    event.preventDefault();
+    const nome = document.getElementById("nome-editar").value;
+    const email = document.getElementById("email-editar").value;
+    const motorista = document.getElementById("tipo-editar").value === "motorista";
+
+    const resultado = await userService.atualizarUsuario(id_usuario, { nome, email, motorista });
+    if (resultado.success) {
+        Swal.fire('Atualizado!', `O usuário ${nome} foi atualizado com sucesso.`, 'success');
+        carregarUsuarios();
+        fecharModalEditar();
+    } else {
+        Swal.fire('Erro!', `Erro ao atualizar o usuário ${nome}: ${resultado.message}`, 'error');
+    }
+}
+
+function fecharModalEditar() {
+    document.getElementById("modal-editar").classList.add("hidden");
+}
