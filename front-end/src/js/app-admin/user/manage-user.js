@@ -3,7 +3,7 @@ import userService from '../../../../services/userService.js';
 document.addEventListener("DOMContentLoaded", async () => {
     await carregarUsuarios();
     configurarEventosModais();
-    configurarBuscaUsuarios();
+    configurarBuscaUsuarios();  
 });
 
 let usuarios = [];
@@ -79,37 +79,6 @@ async function excluirUsuario(id, nome) {
     }
 }
 
-function abrirModalEditarUsuario(id_usuario, email) {
-    const modal = document.getElementById("modal-editar");
-    userService.obterUsuarioPorEmail(email).then(usuario => {
-        document.getElementById("nome-editar").value = usuario.data.nome;
-        document.getElementById("email-editar").value = usuario.data.email;
-        document.getElementById("tipo-editar").value = usuario.data.motorista ? "motorista" : "administrador";
-        modal.classList.remove("hidden");
-        document.getElementById("form-editar-usuario").onsubmit = (event) => editarUsuario(event, id_usuario);
-    }).catch(error => console.error("Erro ao carregar os dados do usuário:", error));
-}
-
-async function editarUsuario(event, id_usuario) {
-    event.preventDefault();
-    const nome = document.getElementById("nome-editar").value;
-    const email = document.getElementById("email-editar").value;
-    const motorista = document.getElementById("tipo-editar").value === "motorista";
-    
-    const resultado = await userService.atualizarUsuario(id_usuario, { nome, email, motorista });
-    if (resultado.success) {
-        Swal.fire('Atualizado!', `O usuário ${nome} foi atualizado com sucesso.`, 'success');
-        carregarUsuarios();
-        fecharModalEditar();
-    } else {
-        Swal.fire('Erro!', `Erro ao atualizar o usuário ${nome}: ${resultado.message}`, 'error');
-    }
-}
-
-function fecharModalEditar() {
-    document.getElementById("modal-editar").classList.add("hidden");
-}
-
 function configurarEventosModais() {
     const addUsuarioModal = document.getElementById("add-usuario-modal");
     const modalAdicionar = document.getElementById("modal-adicionar");
@@ -118,13 +87,22 @@ function configurarEventosModais() {
     const modalEditar = document.getElementById("modal-editar");
 
     if (addUsuarioModal && modalAdicionar) {
-        addUsuarioModal.addEventListener("click", () => modalAdicionar.classList.remove("hidden"));
+        addUsuarioModal.addEventListener("click", () => {
+            modalAdicionar.classList.remove("hidden");
+            configurarAdicionarUsuario(); // Configurar evento apenas quando o modal for aberto
+        });
         btnCancelarAdicionar.addEventListener("click", () => modalAdicionar.classList.add("hidden"));
     }
 
-    // ✅ Adiciona evento ao botão cancelar do modal de edição
     if (btnCancelarEditar && modalEditar) {
         btnCancelarEditar.addEventListener("click", () => modalEditar.classList.add("hidden"));
+    }
+}
+
+function configurarAdicionarUsuario() {
+    const formAdicionar = document.getElementById("form-adicionar-usuario");
+    if (formAdicionar) {
+        formAdicionar.onsubmit = adicionarUsuario;
     }
 }
 
@@ -136,4 +114,37 @@ function configurarBuscaUsuarios() {
         );
         listarUsuarios(usuariosFiltrados); 
     });
+}
+
+async function adicionarUsuario(event) {
+    event.preventDefault();
+
+    const nomeElement = document.getElementById("nome"); // alterado de "nome-adicionar" para "nome"
+    const emailElement = document.getElementById("email");
+    const tipoElement = document.getElementById("tipo");
+
+    if (!nomeElement || !emailElement || !tipoElement) {
+        console.error("Erro: Um ou mais campos não foram encontrados no DOM.");
+        return;
+    }
+
+    const nome = nomeElement.value;
+    const email = emailElement.value;
+    const motorista = tipoElement.value === "motorista";
+    const senha = '123';
+
+    const resultado = await userService.criarUsuario({ nome, email, senha, motorista });
+
+    if (resultado.success) {
+        Swal.fire('Adicionado!', `O usuário ${nome} foi adicionado com sucesso.`, 'success');
+        carregarUsuarios();
+        fecharModalAdicionar();
+    } else {
+        Swal.fire('Erro!', `Erro ao adicionar o usuário ${nome}: ${resultado.message}`, 'error');
+    }
+}
+
+function fecharModalAdicionar() {
+    const modalAdicionar = document.getElementById("modal-adicionar");
+    modalAdicionar.classList.add("hidden");
 }

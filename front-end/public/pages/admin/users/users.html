@@ -84,7 +84,7 @@
     <div id="modal-adicionar" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center hidden">
         <div class="bg-white p-6 rounded-lg w-96 space-y-4">
             <h2 class="text-xl font-semibold">Cadastrar Novo Usuário</h2>
-            <form action="#" method="POST">
+            <form id="form-adicionar-usuario" method="POST">
                 <div>
                     <label for="nome" class="block text-sm font-semibold">Nome</label>
                     <input type="text" id="nome" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nome completo" required>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="flex justify-between items-center mt-6">
                     <button type="button" id="btn-cancelar-adicionar" class="text-red-500 hover:text-red-700">Cancelar</button>
-                    <button type="submit" class="bg-green-600 text-white p-3 rounded-lg">Cadastrar</button>
+                    <button type="submit" id="btn-salvar-adicionar" class="bg-green-600 text-white p-3 rounded-lg">Cadastrar</button>
                     
                 </div>
             </form>
