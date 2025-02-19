@@ -2,6 +2,8 @@ import userService from '../../../../services/userService.js';
 
 document.addEventListener("DOMContentLoaded", async () => {
     await carregarUsuarios();
+    configurarEventosModais();
+    configurarBuscaUsuarios();
 });
 
 let usuarios = [];
@@ -11,36 +13,28 @@ async function carregarUsuarios() {
     listaUsuarios.innerHTML = "<p class='text-center'>Carregando usuários...</p>";
 
     const resposta = await userService.listarUsuarios();
-    console.log('lista de usuarios:', resposta);
     if (!resposta.success) {
         listaUsuarios.innerHTML = `<p class='text-center text-red-500'>Erro: ${resposta.mensagem}</p>`;
         return;
     }
 
-    usuarios = resposta.data; // Armazenando os usuários para uso na busca
+    usuarios = resposta.data;
     listarUsuarios(usuarios);
 }
 
 function listarUsuarios(usuarios) {
     const listaUsuarios = document.getElementById("lista-usuarios");
-    listaUsuarios.innerHTML = ""; // Limpar a lista antes de preencher
-
-    usuarios.forEach(usuario => {
-        listaUsuarios.appendChild(criarCardUsuario(usuario));
-    });
+    listaUsuarios.innerHTML = "";
+    usuarios.forEach(usuario => listaUsuarios.appendChild(criarCardUsuario(usuario)));
 }
 
 function criarCardUsuario(usuario) {
     const div = document.createElement("div");
     div.className = "bg-white p-4 shadow-md rounded-lg flex justify-between items-center";
-
-    const icone = usuario.motorista
-        ? '<i class="fa-solid fa-bus text-xl text-blue-600"></i>'
-        : '<i class="fa-solid fa-user-shield text-xl text-green-600"></i>';
-
+    
     div.innerHTML = `
         <div class="flex items-center space-x-4">
-            ${icone}
+            ${usuario.motorista ? '<i class="fa-solid fa-bus text-xl text-blue-600"></i>' : '<i class="fa-solid fa-user-shield text-xl text-green-600"></i>'}
             <div>
                 <p class="font-semibold">${usuario.nome}</p>
                 <p class="text-sm text-gray-500">${usuario.email}</p>
@@ -56,19 +50,8 @@ function criarCardUsuario(usuario) {
         </div>
     `;
 
-    // Adicionando o evento para editar
-    div.querySelector(".btn-editar").addEventListener("click", (event) => {
-        const id = event.currentTarget.getAttribute("data-id");
-        const email = event.currentTarget.getAttribute("data-email");
-        abrirModalEditarUsuario(id, email);
-    });
-
-    // Adicionando o evento para excluir
-    div.querySelector(".btn-excluir").addEventListener("click", (event) => {
-        const id = event.currentTarget.getAttribute("data-id");
-        const nome = event.currentTarget.getAttribute("data-nome");
-        excluirUsuario(id, nome);
-    });
+    div.querySelector(".btn-editar").addEventListener("click", () => abrirModalEditarUsuario(usuario.id_usuario, usuario.email));
+    div.querySelector(".btn-excluir").addEventListener("click", () => excluirUsuario(usuario.id_usuario, usuario.nome));
 
     return div;
 }
@@ -88,81 +71,69 @@ async function excluirUsuario(id, nome) {
     if (resultado.isConfirmed) {
         const resultadoExclusao = await userService.excluirUsuario(id);
         if (resultadoExclusao.success) {
-            Swal.fire(
-                'Excluído!',
-                `O usuário ${nome} foi excluído com sucesso.`,
-                'success'
-            );
+            Swal.fire('Excluído!', `O usuário ${nome} foi excluído com sucesso.`, 'success');
             carregarUsuarios(); 
         } else {
-            Swal.fire(
-                'Erro!',
-                `Erro ao excluir o usuário ${nome}: ${resultadoExclusao.message}`,
-                'error'
-            );
+            Swal.fire('Erro!', `Erro ao excluir o usuário ${nome}: ${resultadoExclusao.message}`, 'error');
         }
     }
 }
 
 function abrirModalEditarUsuario(id_usuario, email) {
     const modal = document.getElementById("modal-editar");
-
     userService.obterUsuarioPorEmail(email).then(usuario => {
         document.getElementById("nome-editar").value = usuario.data.nome;
         document.getElementById("email-editar").value = usuario.data.email;
         document.getElementById("tipo-editar").value = usuario.data.motorista ? "motorista" : "administrador";
-
         modal.classList.remove("hidden");
-
-        document.getElementById("form-editar-usuario").onsubmit = async (event) => {
-            event.preventDefault();
-            await editarUsuario(id_usuario);
-        };
-
-        document.getElementById("btn-cancelar-editar").addEventListener("click", fecharModalEditar);
-    }).catch(error => {
-        console.error("Erro ao carregar os dados do usuário:", error);
-    });
+        document.getElementById("form-editar-usuario").onsubmit = (event) => editarUsuario(event, id_usuario);
+    }).catch(error => console.error("Erro ao carregar os dados do usuário:", error));
 }
 
-// Função para fechar o modal
+async function editarUsuario(event, id_usuario) {
+    event.preventDefault();
+    const nome = document.getElementById("nome-editar").value;
+    const email = document.getElementById("email-editar").value;
+    const motorista = document.getElementById("tipo-editar").value === "motorista";
+    
+    const resultado = await userService.atualizarUsuario(id_usuario, { nome, email, motorista });
+    if (resultado.success) {
+        Swal.fire('Atualizado!', `O usuário ${nome} foi atualizado com sucesso.`, 'success');
+        carregarUsuarios();
+        fecharModalEditar();
+    } else {
+        Swal.fire('Erro!', `Erro ao atualizar o usuário ${nome}: ${resultado.message}`, 'error');
+    }
+}
+
 function fecharModalEditar() {
     document.getElementById("modal-editar").classList.add("hidden");
 }
 
+function configurarEventosModais() {
+    const addUsuarioModal = document.getElementById("add-usuario-modal");
+    const modalAdicionar = document.getElementById("modal-adicionar");
+    const btnCancelarAdicionar = document.getElementById("btn-cancelar-adicionar");
+    const btnCancelarEditar = document.getElementById("btn-cancelar-editar"); 
+    const modalEditar = document.getElementById("modal-editar");
 
-async function editarUsuario(id_usuario) {
-    const nome = document.getElementById("nome-editar").value;
-    const email = document.getElementById("email-editar").value;
-    const motorista = document.getElementById("tipo-editar").value === "motorista";
+    if (addUsuarioModal && modalAdicionar) {
+        addUsuarioModal.addEventListener("click", () => modalAdicionar.classList.remove("hidden"));
+        btnCancelarAdicionar.addEventListener("click", () => modalAdicionar.classList.add("hidden"));
+    }
 
-    const usuarioData = { nome, email, motorista };
-
-    const resultado = await userService.atualizarUsuario(id_usuario, usuarioData);
-
-    if (resultado.success) {
-        Swal.fire(
-            'Atualizado!',
-            `O usuário ${nome} foi atualizado com sucesso.`,
-            'success'
-        );
-        carregarUsuarios();
-        fecharModalEditar();
-    } else {
-        Swal.fire(
-            'Erro!',
-            `Erro ao atualizar o usuário ${nome}: ${resultado.message}`,
-            'error'
-        );
+    // ✅ Adiciona evento ao botão cancelar do modal de edição
+    if (btnCancelarEditar && modalEditar) {
+        btnCancelarEditar.addEventListener("click", () => modalEditar.classList.add("hidden"));
     }
 }
 
-document.getElementById("search").addEventListener("input", (event) => {
-    const termoBusca = event.target.value.toLowerCase();
-
-    const usuariosFiltrados = usuarios.filter(usuario => {
-        return usuario.nome.toLowerCase().includes(termoBusca) || usuario.email.toLowerCase().includes(termoBusca);
+function configurarBuscaUsuarios() {
+    document.getElementById("search").addEventListener("input", (event) => {
+        const termoBusca = event.target.value.toLowerCase();
+        const usuariosFiltrados = usuarios.filter(usuario => 
+            usuario.nome.toLowerCase().includes(termoBusca) || usuario.email.toLowerCase().includes(termoBusca)
+        );
+        listarUsuarios(usuariosFiltrados); 
     });
-
-    listarUsuarios(usuariosFiltrados); 
-});
+}
