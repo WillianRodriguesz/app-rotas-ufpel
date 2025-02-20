@@ -1,8 +1,15 @@
 const Usuario = require('../../models/userModel.js'); 
+const emailService = require('./passwordResetService.js');
 const bcrypt = require('bcrypt');
 
 async function inserirUsuario(nome, email, senha, motorista) {
     try {
+        const usuarioExistente = await Usuario.findOne({ where: { email } });
+
+        if (usuarioExistente) {
+            throw new Error('E-mail já cadastrado no sistema.');
+        }
+
         const senhaCriptografada = await bcrypt.hash(senha, 10);
 
         const usuario = await Usuario.create({
@@ -11,7 +18,7 @@ async function inserirUsuario(nome, email, senha, motorista) {
             senha: senhaCriptografada,
             motorista
         });
-
+        await emailService.solicitarRedefinicaoSenha(email);
         return usuario; 
     } catch (erro) {
         console.error('Erro ao inserir usuário:', erro);
