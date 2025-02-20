@@ -14,3 +14,6 @@ npm install sequelize pg pg-hstore
 npm install bcryptjs
 
 npm install cookie-parser
+
+npm install jsonwebtoken nodemailer dotenv
+
