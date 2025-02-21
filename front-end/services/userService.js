@@ -91,6 +91,28 @@ const userService = {
             console.error('Erro ao excluir usuário:', error);
             return { success: false, message: 'Erro inesperado, tente novamente mais tarde.' };
         }
+    },
+
+    async redefinirSenha(token, novaSenha) {
+        try {
+            const response = await fetch('/usuarios/redefinir-senha', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ token, novaSenha }),
+            });
+            const result = await response.json();
+    
+            if (response.ok) {
+                return { success: true, message: result.mensagem };
+            } else {
+                return { success: false, message: result.message };
+            }
+        } catch (error) {
+            console.error('Erro ao redefinir senha:', error);
+            return { success: false, message: 'Erro inesperado, tente novamente mais tarde.' };
+        }
     }
 };
 

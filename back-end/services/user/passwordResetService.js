@@ -22,7 +22,7 @@ async function solicitarRedefinicaoSenha(email) {
             return null;
         }
 
-        const token = jwt.sign({ id: usuario.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: usuario.id_usuario }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         const resetLink = `${process.env.FRONTEND_URL}/redefinir-senha/${token}`;
 
@@ -34,7 +34,7 @@ async function solicitarRedefinicaoSenha(email) {
                 <html lang="pt-BR">
                 <head>
                     <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <meta name="viewport" content="w_usuarioth=device-width, initial-scale=1.0">
                     <title>Redefinição de Senha - Rotas UFPel</title>
                 </head>
                 <body style="font-family: Arial, sans-serif; color: #333; background-color: #f4f4f4; padding: 20px;">

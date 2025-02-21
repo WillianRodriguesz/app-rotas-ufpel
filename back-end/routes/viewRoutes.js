@@ -47,5 +47,9 @@ router.get('/painel/usuarios', (req, res) => {
     res.sendFile(filePath);
 });
 
+router.get('/redefinir-senha/:token', (req, res) => {
+    const filePath = path.resolve(__dirname, '../../front-end/public/pages/reset-password/reset-password.html');
+    res.sendFile(filePath);
+});
 
 module.exports = router;

@@ -1,4 +1,7 @@
-const usuarioService = require('../services/user/userService.js'); 
+const { password } = require('pg/lib/defaults.js');
+const usuarioService = require('../services/user/userService.js');
+const passwordResetService = require('../services/user/passwordResetService.js'); 
+
 
 async function criarUsuario(req, res) {
     try {
@@ -83,4 +86,25 @@ async function excluirUsuario(req, res) {
     }
 }
 
-module.exports = { criarUsuario, listarUsuarios, obterUsuarioPorEmail, atualizarUsuario, excluirUsuario };
+const redefinirSenha = async (req, res) => {
+    const { token, novaSenha } = req.body;
+
+    if (!token || !novaSenha) {
+        return res.status(400).json({ mensagem: 'Token e nova senha são obrigatórios' });
+    }
+
+    try {
+        const resultado = await passwordResetService.redefinirSenha(token, novaSenha);
+
+        if (resultado) {
+            return res.status(200).json(resultado);
+        } else {
+            return res.status(400).json({ mensagem: 'Erro ao redefinir senha' });
+        }
+    } catch (erro) {
+        console.error('Erro no controller:', erro);
+        return res.status(500).json({ mensagem: 'Erro interno ao redefinir a senha' });
+    }
+};
+
+module.exports = { criarUsuario, listarUsuarios, obterUsuarioPorEmail, atualizarUsuario, excluirUsuario, redefinirSenha };
