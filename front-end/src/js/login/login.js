@@ -1,4 +1,5 @@
 import loginService from '../../../services/loginService.js'
+import userService from '../../../services/userService.js'
 
 document.addEventListener('DOMContentLoaded', () => {
     // Botão de Voltar
@@ -20,7 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const { success, message } = await loginService.login(email, senha);
 
             if (success) {
-                window.location.href = '/localizacao/motorista'; 
+                try {
+                    const result = await userService.obterUsuarioPorEmail(email);
+                    console.log('dados usuario', result);
+
+                    console.log('logou buscou usuario agora é motorista?', result.data.motorista);
+                    window.location.href = result.motorista ? '/localizacao/motorista' : '/painel';
+                } catch (error) {
+                    console.error("Erro ao obter usuário:", error);
+                    alert("Erro ao buscar informações do usuário.");
+                }
             } else {
                 alert(message);
             }

@@ -13,13 +13,13 @@ async function autenticarUsuario(req, res) {
             return res.status(400).json({ message: 'Email e senha são obrigatórios.' });
         }
 
-        const motorista = await usuarioService.obterUsuarioPorEmail(email);
+        const usuario = await usuarioService.obterUsuarioPorEmail(email);
 
-        if (!motorista) {
+        if (!usuario) {
             return res.status(404).json({ message: 'Usuário não encontrado.' });
         }
 
-        const senhaCorreta = await bcrypt.compare(senha, motorista.senha);
+        const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
 
         if (!senhaCorreta) {
             return res.status(401).json({ message: 'Credenciais inválidas.' });
@@ -27,7 +27,7 @@ async function autenticarUsuario(req, res) {
 
         // Gera o token JWT
         const token = jwt.sign(
-            { id: motorista.id, nome: motorista.nome, email: motorista.email, admin: motorista.admin },
+            { id: usuario.id, nome: usuario.nome, email: usuario.email, motorista: usuario.motorista },
             secretKey,
             { expiresIn: '3h' } 
         );
