@@ -103,11 +103,14 @@ function configurarAdicionarUsuario() {
     const formAdicionar = document.getElementById("form-adicionar-usuario");
     const nomeElement = document.getElementById("nome");
     const emailElement = document.getElementById("email");
+    const confirmarEmailElement = document.getElementById("confirmar_email");
     const tipoElement = document.getElementById("tipo");
 
     if (nomeElement) nomeElement.value = '';
     if (emailElement) emailElement.value = '';
+    if (confirmarEmailElement) tipoElement.value = '';
     if (tipoElement) tipoElement.value = '';
+
 
     if (formAdicionar) {
         formAdicionar.onsubmit = adicionarUsuario;
@@ -129,26 +132,54 @@ async function adicionarUsuario(event) {
 
     const nomeElement = document.getElementById("nome"); 
     const emailElement = document.getElementById("email");
+    const confirmarEmailElement = document.getElementById("confirmar_email");
     const tipoElement = document.getElementById("tipo");
 
-    if (!nomeElement || !emailElement || !tipoElement) {
+    if (!nomeElement || !emailElement || !confirmarEmailElement || !tipoElement) {
         console.error("Erro: Um ou mais campos não foram encontrados no DOM.");
         return;
     }
 
     const nome = nomeElement.value;
     const email = emailElement.value;
+    const confirmarEmail = confirmarEmailElement.value;
     const motorista = tipoElement.value === "motorista";
     const senha = '123';
+
+    if (email !== confirmarEmail) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Erro!',
+            text: 'Os e-mails informados não são iguais. Verifique e tente novamente.',
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: 'Registrando usuário...',
+        text: 'Aguarde um momento',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
 
     const resultado = await userService.criarUsuario({ nome, email, senha, motorista });
 
     if (resultado.success) {
-        Swal.fire('Adicionado!', `O usuário ${nome} foi adicionado com sucesso.`, 'success');
+        Swal.fire({
+            icon: 'success',
+            title: 'Usuário criado!',
+            text: `O usuário ${nome} foi adicionado com sucesso.`,
+        });
         carregarUsuarios();
         fecharModalAdicionar();
     } else {
-        Swal.fire('Erro!', `Erro ao adicionar o usuário ${nome}: ${resultado.message}`, 'error');
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro!',
+            text: `Erro ao adicionar o usuário ${nome}: ${resultado.message}`,
+        });
     }
 }
 

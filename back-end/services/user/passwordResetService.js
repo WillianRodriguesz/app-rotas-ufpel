@@ -45,9 +45,9 @@ async function solicitarRedefinicaoSenha(email) {
                         <p style="text-align: center;">
                             <a href="${resetLink}" style="background-color: #0056b3; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Redefinir minha senha</a>
                         </p>
-                        <p>Lembre-se: esse link ficará disponível por 1 hora a partir deste momento.</p>
-                        <p>Caso não tenha feito essa solicitação, ignore este e-mail.</p>
-                        <p style="text-align: center; color: #888; font-size: 12px;">Atenciosamente,<br>Equipe Rotas UFPel</p>
+                        <p style="text-align: center;">Esse link ficará disponível por 1 hora a partir deste momento.</p>
+                        <p style=Caso não tenha feito essa solicitação, ignore este e-mail.</p>
+                        <p style=color: #888; font-size: 12px;">Atenciosamente,<br>Equipe Rotas UFPel</p>
                     </div>
                 </body>
                 </html>
