@@ -9,6 +9,8 @@ const viewRoutes = require('../back-end/routes/viewRoutes')
 const stopRoutes = require('../back-end/routes/stopRoutes')
 const routeStopRoutes = require('../back-end/routes/routeStopRoutes')
 const routeRoutes = require('../back-end/routes/routeRoutes')
+const notificationRoutes = require('../back-end/routes/notificationRoutes')
+
 
 app.use(express.static('front-end'));
 app.use(cookieParser());  
@@ -21,5 +23,6 @@ app.use('/', viewRoutes);
 app.use('/', stopRoutes);
 app.use('/', routeStopRoutes);
 app.use('/', routeRoutes);
+app.use('/', notificationRoutes);
 
 module.exports = app;

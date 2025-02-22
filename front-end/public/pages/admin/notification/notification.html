@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Notificação</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col">
+    
+    <!-- Cabeçalho -->
+    <div class="flex items-center justify-between p-2 bg-white shadow-md">
+        <!-- Botão de Voltar -->
+        <button onclick="window.location.href='/painel'" class="text-yellow-500 hover:text-yellow-700 p-3">
+            <i class="fa-solid fa-arrow-left text-2xl"></i>
+        </button>
+        <!-- Logo -->
+        <a href="/">
+            <img src="/public/img/logo2.png" alt="Logo" class="w-40 h-auto"> 
+        </a> 
+    </div>
+    
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow p-6 space-y-6">
+        <h1 class="text-2xl font-semibold text-gray-800">Enviar Notificação</h1>
+
+        <form id="notificationForm" class="bg-white p-6 shadow-md rounded-lg space-y-4">
+            <!-- Título da Notificação -->
+            <div>
+                <label for="titulo" class="block text-gray-700 font-medium">Título</label>
+                <input type="text" id="titulo" name="titulo" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Título da notificação">
+            </div>
+
+            <!-- Mensagem -->
+            <div>
+                <label for="mensagem" class="block text-gray-700 font-medium">Mensagem</label>
+                <textarea id="mensagem" name="mensagem" rows="4" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Digite a mensagem..."></textarea>
+            </div>
+
+            <!-- Data de Envio -->
+            <div>
+                <label for="dataEnvio" class="block text-gray-700 font-medium">Data de Envio</label>
+                <input type="date" id="dataEnvio" name="dataEnvio" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Hora de Envio -->
+            <div>
+                <label for="horaEnvio" class="block text-gray-700 font-medium">Hora de Envio</label>
+                <input type="time" id="horaEnvio" name="horaEnvio" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Duração -->
+            <div>
+                <label for="duracao" class="block text-gray-700 font-medium">Duração (em horas)</label>
+                <input type="number" id="duracao" name="duracao" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" min="1" max="72" placeholder="Tempo que ficará visível">
+            </div>
+
+            <!-- Botão de Enviar -->
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+                Enviar Notificação
+            </button>
+        </form>
+    </main>
+
+</body>
+
+<script type="module" src="/src/js/app-admin/notification/notification.js"></script>
+</html>
