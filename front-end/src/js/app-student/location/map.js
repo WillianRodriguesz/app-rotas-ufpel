@@ -66,7 +66,7 @@ export function addParadasMapa(paradas) {
 export function localizarParada(lat, lon, zoomLevel = 18) {
     map.setView([lat, lon], zoomLevel);
 
-    const tolerance = 0.0001; // Pequena margem de erro para comparar coordenadas
+    const tolerance = 0.0001; 
     const marker = markersParadas.find(m => {
         const { lat: markerLat, lng: markerLng } = m.getLatLng();
         return Math.abs(markerLat - lat) < tolerance && Math.abs(markerLng - lon) < tolerance;
@@ -80,7 +80,6 @@ export function localizarParada(lat, lon, zoomLevel = 18) {
     }
 }
 
-// Função para calcular o tamanho do ícone com base no zoom
 function getIconSize(zoom) {
     const baseSizeBus = 58; 
     const baseSizeParadaWidth = 35; 
