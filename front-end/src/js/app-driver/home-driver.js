@@ -70,6 +70,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (locationUpdateInterval) {
             clearInterval(locationUpdateInterval);
         }
+
+        // Limpar os campos de rota, horário e acessibilidade
+        routeSelect.value = '';
+        timeSelect.value = '';
+        accessibilitySelect.value = '';
     }
 
     setOfflineState(); // Inicia OFFLINE
