@@ -5,7 +5,7 @@ import { receberDadosMotorista } from '../../../../services/socketService.js';
 // Definição dos ícones antes de usá-los
 const busIcon = L.icon({
     iconUrl: '/public/img/iconBus.png', 
-    iconSize: [58, 60],         
+    iconSize: [38, 40],         
     iconAnchor: [30, 30],       
     popupAnchor: [0, -32]       
 });

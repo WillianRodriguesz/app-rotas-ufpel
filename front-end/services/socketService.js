@@ -1,5 +1,4 @@
-
-const socket = io('https://localhost:3000', {
+const socket = io('https://192.168.0.108:3000', {
   secure: true, 
   rejectUnauthorized: false, 
 });

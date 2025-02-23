@@ -64,8 +64,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         statusCircle.classList.remove("statusCircleOnline");
         statusCircle.classList.add("statusCircleOffline");
 
-        locationContainer.innerHTML = '<p>Localização desativada.</p>';
-
         clearGeolocation();
         if (locationUpdateInterval) {
             clearInterval(locationUpdateInterval);
@@ -117,12 +115,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const { latitude, longitude, accuracy } = location;
                 console.log(`Primeira localização recebida: Latitude: ${latitude}, Longitude: ${longitude}, Precisão: ${accuracy}`);
 
-                locationContainer.innerHTML = `
-                    <p>Latitude: ${latitude.toFixed(6)}</p>
-                    <p>Longitude: ${longitude.toFixed(6)}</p>
-                    <p>Precisão: ${accuracy.toFixed(2)} metros</p>
-                `;
-
                 const rotaOnibus = routeSelect.value || 'Sem rota definida'; // Obtém a rota selecionada
                 const horarioDaRota = timeSelect.value || 'Sem horário definido'; // Obtém o horário selecionado
                 const acessibilidade = accessibilitySelect.value || 'Sem acessibilidade definida'; // Obtém a acessibilidade selecionada
@@ -135,12 +127,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 if (location) {
                     const { latitude, longitude, accuracy } = location;
                     console.log(`Localização atualizada: Latitude: ${latitude}, Longitude: ${longitude}, Precisão: ${accuracy}`);
-
-                    locationContainer.innerHTML = `
-                        <p>Latitude: ${latitude.toFixed(6)}</p>
-                        <p>Longitude: ${longitude.toFixed(6)}</p>
-                        <p>Precisão: ${accuracy.toFixed(2)} metros</p>
-                    `;
 
                     // Enviar os dados com a rota selecionada
                     const rotaOnibus = routeSelect.value || 'Sem rota definida';
