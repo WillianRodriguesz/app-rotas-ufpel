@@ -23,10 +23,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (success) {
                 try {
                     const result = await userService.obterUsuarioPorEmail(email);
-                    console.log('dados usuario', result);
-
-                    console.log('logou buscou usuario agora é motorista?', result.data.motorista);
-                    window.location.href = result.motorista ? '/localizacao/motorista' : '/painel';
+                      
+                    if(result.data.motorista){
+                    const usuarioSessao = {
+                        id_usuario: result.data.id_usuario,
+                        nome: result.data.nome,
+                        email: result.data.email
+                    };
+                    
+                    sessionStorage.setItem('usuario', JSON.stringify(usuarioSessao));
+                    }
+                    
+                    window.location.href = result.data.motorista ? '/localizacao/motorista' : '/painel';
                 } catch (error) {
                     console.error("Erro ao obter usuário:", error);
                     alert("Erro ao buscar informações do usuário.");

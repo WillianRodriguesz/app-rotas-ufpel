@@ -1,15 +1,45 @@
 import { startGeolocation, clearGeolocation, getCurrentLocation } from '../../../services/geolocationService.js';
+import routeService from '../../../services/routeService.js'; 
 import { enviarDadosMotorista } from '../../../services/socketService.js';
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     const button = document.querySelector(".driverButton");
     const statusText = document.querySelector(".driverStatus");
     const statusCircle = document.querySelector(".statusCircle");
     const locationContainer = document.querySelector(".locationContainer");
+    const nomeMotoristaElement = document.querySelector(".driverName");
+    const routeSelect = document.getElementById("routeSelect"); // Obtém o select de rotas
+
+    const usuario = JSON.parse(sessionStorage.getItem('usuario')); 
+    nomeMotoristaElement.textContent = usuario.nome;  
 
     let locationUpdateInterval = null; // Para controlar o intervalo de atualização
 
-    // GARANTIR QUE A PÁGINA INICIE COMO OFFLINE
+    async function carregarRotas() {
+        try {
+            const rotas = await routeService.listarRotas();
+
+            console.log('rotas encontradas: ', rotas.data);
+
+            if (rotas.data.length > 0) {
+                routeSelect.innerHTML = '<option value="">Selecione a Rota</option>';
+                rotas.data.forEach(rota => {
+                    const option = document.createElement("option");
+                    option.value = rota.id; 
+                    option.textContent = rota.nome; 
+                    routeSelect.appendChild(option);
+                });
+            } else {
+                console.warn("Nenhuma rota encontrada.");
+            }
+        } catch (error) {
+            console.error("Erro ao carregar rotas:", error);
+        }
+    }
+
+    await carregarRotas(); // Chama a função para carregar as rotas ao iniciar
+
+    // 🔹 Garantir que a página inicie como OFFLINE
     function setOfflineState() {
         button.classList.remove("driverButtonOnline");
         button.classList.add("driverButtonOffline");
@@ -26,12 +56,11 @@ document.addEventListener("DOMContentLoaded", function () {
         
         clearGeolocation();
         if (locationUpdateInterval) {
-            clearInterval(locationUpdateInterval); // Limpar o intervalo de atualização da localização
+            clearInterval(locationUpdateInterval); 
         }
     }
 
-    // GARANTIR QUE A PÁGINA COMECE COMO OFFLINE
-    setOfflineState();
+    setOfflineState(); // Chama a função para iniciar OFFLINE
 
     button.addEventListener("click", function () {
         const isOnline = button.classList.contains("driverButtonOnline");
@@ -65,15 +94,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     <p>Precisão: ${accuracy.toFixed(2)} metros</p>
                 `;
 
-                // Mockando dados para enviar ao servidor
-                const motoristaId = '12345';
-                const mensagem = 'Motorista em movimento';
-                const rotaOnibus = 'Rota 42';
+                const rotaOnibus = routeSelect.value || 'Sem rota definida'; // Obtém a rota selecionada
+                const horarioDaRota = "08:00"; // Substitua pelo valor real
+                const acessibilidade = "Sim"; // Substitua pelo valor real
 
-                enviarDadosMotorista(motoristaId, rotaOnibus, location, mensagem);
+                enviarDadosMotorista(usuario.id_usuario, rotaOnibus, horarioDaRota, acessibilidade, location);
             });
 
-            // Atualizar localização a cada 5 segundos
             locationUpdateInterval = setInterval(() => {
                 const location = getCurrentLocation();
                 if (location) {
@@ -86,12 +113,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         <p>Precisão: ${accuracy.toFixed(2)} metros</p>
                     `;
 
-                    // Mockando dados para enviar ao servidor
-                    const motoristaId = '12345';
-                    const mensagem = 'Motorista em movimento';
-                    const rotaOnibus = 'Rota 42';
+                    // Enviar os dados com a rota selecionada
+                    const rotaOnibus = routeSelect.value || 'Sem rota definida';
+                    const horarioDaRota = "08:00"; 
+                    const acessibilidade = "Sim"; 
 
-                    enviarDadosMotorista(motoristaId, rotaOnibus, location, mensagem);
+                    enviarDadosMotorista(usuario.id_usuario, rotaOnibus, horarioDaRota, acessibilidade, location);
                 } else {
                     console.log("Aguardando primeira localização...");
                 }

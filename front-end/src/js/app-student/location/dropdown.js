@@ -1,5 +1,5 @@
-import paradaService from '../../../../services/stopService.js';  // Serviço de paradas
-import routeService from '../../../../services/routeService.js';  // Serviço de rotas
+import paradaService from '../../../../services/stopService.js';  
+import routeService from '../../../../services/routeService.js'; 
 import { addParadasMapa, localizarParada } from './map.js';
 
 // Função para carregar as paradas no dropdown

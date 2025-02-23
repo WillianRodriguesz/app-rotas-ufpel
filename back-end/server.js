@@ -23,7 +23,7 @@ io.on('connection', (socket) => {
   console.log('Usuário conectado: ' + socket.id);
 
   socket.on('enviar-dados-motorista', (dadosMotorista) => {
-    console.log(`Dados do motorista ${dadosMotorista.motoristaId} recebidos:`, dadosMotorista);
+    console.log(`Dados do motorista ${dadosMotorista.id} recebidos:`, dadosMotorista);
 
     io.emit('atualizar-localizacao', dadosMotorista);  
   });
