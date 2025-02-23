@@ -1,4 +1,5 @@
 import { startGeolocation, clearGeolocation, getCurrentLocation } from '../../../services/geolocationService.js';
+import { enviarDadosMotorista } from '../../../services/socketService.js';
 
 document.addEventListener("DOMContentLoaded", function () {
     const button = document.querySelector(".driverButton");
@@ -54,6 +55,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     <p>Longitude: ${longitude.toFixed(6)}</p>
                     <p>Precisão: ${accuracy.toFixed(2)} metros</p>
                 `;
+
+                // Enviar dados para o servidor
+                const motoristaId = '12345'; // Mockando o ID do motorista
+                const mensagem = 'Motorista em movimento';
+                const rotaOnibus = 'Rota 42'; // Mockando a rota do ônibus
+
+                // Chamar a função de envio de dados para o servidor
+                enviarDadosMotorista(motoristaId, rotaOnibus, location, mensagem);
             });
 
             // Atualizar localização a cada 5 segundos
@@ -67,6 +76,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         <p>Longitude: ${longitude.toFixed(6)}</p>
                         <p>Precisão: ${accuracy.toFixed(2)} metros</p>
                     `;
+
+                    // Mockando dados para enviar
+                    const motoristaId = '12345'; // Mockando o ID do motorista
+                    const mensagem = 'Motorista em movimento';
+                    const rotaOnibus = 'Rota 42'; // Mockando a rota do ônibus
+
+                    // Enviar os dados para o servidor
+                    enviarDadosMotorista(motoristaId, rotaOnibus, location, mensagem);
                 } else {
                     console.log("Aguardando primeira localização...");
                 }
