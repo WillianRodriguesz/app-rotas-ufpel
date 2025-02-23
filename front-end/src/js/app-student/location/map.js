@@ -160,11 +160,9 @@ function atualizarLocalizacaoMotorista(dadosMotorista) {
         marcadoresOnibus[id] = L.marker([latitude, longitude], { icon: busIcon }).addTo(map);
         marcadoresOnibus[id].bindPopup(`Motorista ${id}`);
     } else {
-        // Atualiza a posição do marcador existente
         marcadoresOnibus[id].setLatLng([latitude, longitude]);
     }
 
-    // Centraliza o mapa na nova posição do motorista
     map.panTo([latitude, longitude]);
 }
 

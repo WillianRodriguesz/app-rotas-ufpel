@@ -1,6 +1,6 @@
 import { startGeolocation, clearGeolocation, getCurrentLocation } from '../../../services/geolocationService.js';
 import routeService from '../../../services/routeService.js'; 
-import { enviarDadosMotorista } from '../../../services/socketService.js';
+import { enviarDadosMotorista, desconectar } from '../../../services/socketService.js';
 
 document.addEventListener("DOMContentLoaded", async function () {
     const button = document.querySelector(".driverButton");
@@ -14,6 +14,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const usuario = JSON.parse(sessionStorage.getItem('usuario'));
     nomeMotoristaElement.textContent = usuario.nome;
+
+    function getSelectedText(selectElement) {
+        const selectedIndex = selectElement.selectedIndex;
+        return selectElement.options[selectedIndex].text;
+    }
 
     let locationUpdateInterval = null;
 
@@ -69,19 +74,19 @@ document.addEventListener("DOMContentLoaded", async function () {
             clearInterval(locationUpdateInterval);
         }
 
-        // Limpar os campos de rota, horário e acessibilidade
         routeSelect.value = '';
         timeSelect.value = '';
         accessibilitySelect.value = '';
     }
 
-    setOfflineState(); // Inicia OFFLINE
+    setOfflineState(); 
 
     button.addEventListener("click", function () {
         const isOnline = button.classList.contains("driverButtonOnline");
 
         if (isOnline) {
             console.log("Mudando para Offline...");
+            desconectar();
             setOfflineState();
         } else {
             console.log("Mudando para Online...");
@@ -112,12 +117,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             // Iniciar geolocalização
             startGeolocation(true, (location) => {
-                const { latitude, longitude, accuracy } = location;
-                console.log(`Primeira localização recebida: Latitude: ${latitude}, Longitude: ${longitude}, Precisão: ${accuracy}`);
-
-                const rotaOnibus = routeSelect.value || 'Sem rota definida'; // Obtém a rota selecionada
+                const rotaOnibus = getSelectedText(routeSelect) || 'Sem rota definida'; // Pega o texto da rota selecionada
                 const horarioDaRota = timeSelect.value || 'Sem horário definido'; // Obtém o horário selecionado
                 const acessibilidade = accessibilitySelect.value || 'Sem acessibilidade definida'; // Obtém a acessibilidade selecionada
+
+                console.log('rota do onibus', rotaOnibus);
 
                 enviarDadosMotorista(usuario.id_usuario, rotaOnibus, horarioDaRota, acessibilidade, location);
             });
@@ -125,13 +129,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             locationUpdateInterval = setInterval(() => {
                 const location = getCurrentLocation();
                 if (location) {
-                    const { latitude, longitude, accuracy } = location;
-                    console.log(`Localização atualizada: Latitude: ${latitude}, Longitude: ${longitude}, Precisão: ${accuracy}`);
-
-                    // Enviar os dados com a rota selecionada
-                    const rotaOnibus = routeSelect.value || 'Sem rota definida';
+                    const rotaOnibus = getSelectedText(routeSelect) || 'Sem rota definida'; // Pega o texto da rota selecionada
                     const horarioDaRota = timeSelect.value || 'Sem horário definido';
                     const acessibilidade = accessibilitySelect.value || 'Sem acessibilidade definida';
+                    console.log('rota do onibus', rotaOnibus);
 
                     enviarDadosMotorista(usuario.id_usuario, rotaOnibus, horarioDaRota, acessibilidade, location);
                 } else {
