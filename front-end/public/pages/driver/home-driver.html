@@ -5,15 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Página do Motorista</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="/public/css/home-driver.css"> <!-- Vincula seu CSS -->
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <link rel="stylesheet" href="/public/css/home-driver.css"> 
 </head>
 <body>
-  <div class="min-h-screen flex flex-col items-center">
+  <div class="min-h-screen flex flex-col items-center ">
     <header class="driverHeader">
-      <img src="/public/img/logo2.png" alt="Logo" class="logo">
+      <img src="/public/img/logo2.png" alt="Logo" class="logo ml-[-40px]">
     </header>
 
-    <div class="profileContainer">
+    <div class="profileContainer ml-[-5px]">
       <div class="avatar bg-blue-500 flex items-center justify-center rounded-full w-32 h-32 overflow-hidden">
         <!-- Caminho vazio para a imagem, o ícone será exibido em caso de erro -->
         <img src="" alt="Foto de Perfil" class="object-cover w-full h-full" 
@@ -22,20 +25,43 @@
       <p class="driverName">Nome do Motorista</p>
 
       <div class="driverStatusContainer">
-        <div class="statusCircle statusCircleOnline"></div> <!-- Ou statusCircleOffline -->
-        <p class="driverStatus driverStatusOnline">ONLINE</p> <!-- Ou driverStatusOffline -->
+        <div class="statusCircle statusCircleOffline"></div> 
+        <p class="driverStatus driverStatusOffline">OFFLINE</p> 
       </div>
+      
+      <div class="routeSelectionContainer mt-4 w-full">
+        <div class="w-full mb-4"> 
+            <label for="routeSelect" class="block text-sm font-medium text-white">Selecione a Rota</label>
+            <select id="routeSelect" class="mt-1 block w-full h-12 text-gray-900 bg-gray-200 border border-gray-400 rounded-lg shadow-lg focus:outline-none focus:ring-2 transition-all ease-in-out">
+                <option value="">Selecione a Rota</option>
+                <option value="rota"></option>
+            </select>
+        </div>
+    
+        <!-- Horário e Acessibilidade lado a lado -->
+        <div class="flex w-full space-x-4">
+            <!-- Horário da Rota -->
+            <div class="w-1/2">
+                <label for="timeSelect" class="block text-sm font-medium text-white">Horário da Rota</label>
+                <input type="time" id="timeSelect" class="mt-1 block w-full h-12 text-gray-900 bg-gray-200 border border-gray-400 rounded-lg shadow-lg focus:outline-none focus:ring-2 transition-all ease-in-out">
+            </div>
+    
+            <!-- Acessibilidade -->
+            <div class="w-1/2">
+                <label for="accessibilitySelect" class="block text-sm font-medium text-white">Acessibilidade</label>
+                <select id="accessibilitySelect" class="mt-1 block w-full h-12 text-gray-900 bg-gray-200 border border-gray-400 rounded-lg shadow-lg focus:outline-none focus:ring-2 transition-all ease-in-out">
+                    <option value="">Selecione</option>
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </div>
+        </div>
+      </div>
+    
 
-      <button class="driverButton driverButtonOnline"> <!-- Ou driverButtonOffline -->
-        <span class="driverButtonText">Ficar Offline</span>
+      <button class="driverButton driverButtonOffline"> 
+        <span class="driverButtonText">Ficar Online</span>
       </button>
-
-      <!-- Exibe a localização e a precisão na tela -->
-      <div class="locationContainer">
-        <p>Latitude: 12.345678</p>
-        <p>Longitude: -98.765432</p>
-        <p>Precisão: 10 metros</p>
-      </div>
 
     </div>
   </div>

@@ -1,5 +1,4 @@
 const routeService = {
-    // Função para listar todas as rotas
     async listarRotas() {
         try {
             const response = await fetch('/buscar/rotas');

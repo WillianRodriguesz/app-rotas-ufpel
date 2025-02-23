@@ -1,10 +1,11 @@
 import mockLocations from "../../mocks/location.js";
 import paradas from "../../mocks/paradas.js";
+import { receberDadosMotorista } from '../../../../services/socketService.js';
 
 // Definição dos ícones antes de usá-los
 const busIcon = L.icon({
     iconUrl: '/public/img/iconBus.png', 
-    iconSize: [58, 60],         
+    iconSize: [38, 40],         
     iconAnchor: [30, 30],       
     popupAnchor: [0, -32]       
 });
@@ -138,5 +139,38 @@ function simulateLocationUpdates() {
     }, 2000); 
 }
 
-simulateLocationUpdates();
+let marcadoresOnibus = {}; // Armazena os marcadores dos motoristas por ID
+
+function atualizarLocalizacaoMotorista(dadosMotorista) {
+    const { id, localizacao } = dadosMotorista;
+    const { latitude, longitude } = localizacao;
+
+    console.log('dado motorotista:', dadosMotorista);
+
+    // Se o ID do motorista não for informado, aborta a atualização
+    if (!id) {
+        console.warn("Motorista sem ID, ignorando atualização.");
+        return;
+    }
+
+    console.log(`Atualizando posição do motorista ${id} para: ${latitude}, ${longitude}`);
+
+    // Se o motorista ainda não tem um marcador, cria um novo
+    if (!marcadoresOnibus[id]) {
+        marcadoresOnibus[id] = L.marker([latitude, longitude], { icon: busIcon }).addTo(map);
+        marcadoresOnibus[id].bindPopup(`Motorista ${id}`);
+    } else {
+        marcadoresOnibus[id].setLatLng([latitude, longitude]);
+    }
+
+    map.panTo([latitude, longitude]);
+}
+
+// Recebe atualizações dos motoristas a cada 5 segundos
+setInterval(() => {
+    receberDadosMotorista(atualizarLocalizacaoMotorista);
+}, 5000);
+
+
+//simulateLocationUpdates();
 //addParadasMapa(paradas);
