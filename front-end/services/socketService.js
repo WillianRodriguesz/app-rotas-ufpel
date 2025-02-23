@@ -14,13 +14,16 @@ function enviarDadosMotorista(id, rota, horarioDaRota, acessibilidade, localizac
     acessibilidade, 
   };
 
-  // Enviar os dados para o servidor
   socket.emit('enviar-dados-motorista', dadosMotorista);
 }
 
-function receberDadosMotorista() {
+function receberDadosMotorista(callback) {
   socket.on('atualizar-localizacao', (dadosMotorista) => {
     console.log('Nova localização do motorista:', dadosMotorista);
+    
+    if (callback && typeof callback === 'function') {
+      callback(dadosMotorista);  
+    }
   });
 }
 

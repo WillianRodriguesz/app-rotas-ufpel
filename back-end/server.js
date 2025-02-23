@@ -11,11 +11,7 @@ const options = {
 };
 
 const PORT = process.env.PORT || 3000;
-
-// Criar o servidor HTTPS
 const server = https.createServer(options, app);
-
-// Criar o servidor de WebSocket (Socket.IO) associado ao servidor HTTPS
 const io = socketIo(server);
 
 // Quando um motorista ou aluno se conecta
