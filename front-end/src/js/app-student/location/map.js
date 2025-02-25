@@ -56,7 +56,6 @@ function removeParadaMarkers() {
 
 // Função para adicionar as paradas no mapa
 export function addParadasMapa(paradas) {
-    console.log('Paradas recebidas no mapa:', paradas);  
     
     removeParadaMarkers();
     paradas.forEach(parada => {
@@ -74,7 +73,6 @@ export function localizarParada(lat, lon, zoomLevel = 18) {
     });
 
     if (marker) {
-        console.log("Marcador encontrado:", marker.getLatLng()); 
         marker.openPopup();
     } else {
         console.warn("Nenhum marcador encontrado para as coordenadas:", lat, lon);
@@ -142,10 +140,8 @@ function simulateLocationUpdates() {
 let marcadoresOnibus = {}; // Armazena os marcadores dos motoristas por ID
 
 function atualizarLocalizacaoMotorista(dadosMotorista) {
-    const { id, localizacao } = dadosMotorista;
+    const { id, localizacao, rota, acessibilidade, horarioDaRota } = dadosMotorista;
     const { latitude, longitude } = localizacao;
-
-    console.log('dado motorotista:', dadosMotorista);
 
     // Se o ID do motorista não for informado, aborta a atualização
     if (!id) {
@@ -153,18 +149,54 @@ function atualizarLocalizacaoMotorista(dadosMotorista) {
         return;
     }
 
-    console.log(`Atualizando posição do motorista ${id} para: ${latitude}, ${longitude}`);
 
     // Se o motorista ainda não tem um marcador, cria um novo
     if (!marcadoresOnibus[id]) {
-        marcadoresOnibus[id] = L.marker([latitude, longitude], { icon: busIcon }).addTo(map);
-        marcadoresOnibus[id].bindPopup(`Motorista ${id}`);
+        marcadoresOnibus[id] = L.marker([latitude, longitude], { icon: busIcon }).addTo(map);        
+        marcadoresOnibus[id].on('click', function() {
+            openMotoristaModal({
+                rota,
+                acessibilidade,
+                horarioDaRota
+            });
+        });
     } else {
         marcadoresOnibus[id].setLatLng([latitude, longitude]);
     }
-
-    map.panTo([latitude, longitude]);
 }
+
+
+function openMotoristaModal(dadosMotorista) {
+    const modal = document.getElementById('motoristaModal');
+    const motoristaInfo = document.getElementById('motoristaInfo');
+    
+    // Verifica se a acessibilidade está marcada como 'sim'
+    const validaAcessibilidade = dadosMotorista.acessibilidade === 'sim';
+
+    console.log('Acessibilidade:', dadosMotorista.acessibilidade);
+    console.log('Valida Acessibilidade:', validaAcessibilidade);
+
+    // Determina o ícone de acessibilidade
+    const acessibilidadeIcon = validaAcessibilidade ? 
+        '<img src="../../../../public/img/iconCadeirante.png" alt="Acessibilidade" class="h-10 w-10">' : '';
+
+    // Preenchendo as informações do motorista no modal
+    motoristaInfo.innerHTML = `
+        <p><strong>Rota:</strong> ${dadosMotorista.rota || 'Informação não disponível'}</p>
+        <p><strong>Horário da Rota:</strong> ${dadosMotorista.horarioDaRota || 'Informação não disponível'}</p>
+        <p><strong>Acessibilidade:</strong> ${validaAcessibilidade ? 'Disponível' : 'Não disponível'}</p>
+        <p><strong></strong> ${acessibilidadeIcon}</p>
+    `;
+    
+    modal.classList.remove('hidden');
+}
+
+
+
+document.getElementById('closeModalButton').addEventListener('click', function() {
+    document.getElementById('motoristaModal').classList.add('hidden');
+});
+
 
 // Recebe atualizações dos motoristas a cada 5 segundos
 setInterval(() => {

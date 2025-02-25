@@ -88,6 +88,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.log("Mudando para Offline...");
             desconectar();
             setOfflineState();
+            window.location.reload();
         } else {
             console.log("Mudando para Online...");
             

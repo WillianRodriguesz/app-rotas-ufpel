@@ -18,8 +18,6 @@ function enviarDadosMotorista(id, rota, horarioDaRota, acessibilidade, localizac
 
 function receberDadosMotorista(callback) {
   socket.on('atualizar-localizacao', (dadosMotorista) => {
-    console.log('Nova localização do motorista:', dadosMotorista);
-    
     if (callback && typeof callback === 'function') {
       callback(dadosMotorista);  
     }
