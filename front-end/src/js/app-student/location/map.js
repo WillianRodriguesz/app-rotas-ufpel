@@ -18,7 +18,7 @@ const paradaIcon = L.icon({
 });
 
 // Inicialização do mapa
-const map = L.map('map').setView([-31.780832297261984, -52.323695006471866], 20);
+const map = L.map('map').setView([-31.777211017440752, -52.33114740802195], 14);
 
 // Arrays separados para marcadores de ônibus e paradas
 let markersBus = [];
@@ -137,7 +137,7 @@ function simulateLocationUpdates() {
     }, 2000); 
 }
 
-let marcadoresOnibus = {}; // Armazena os marcadores dos motoristas por ID
+let marcadoresOnibus = {}; 
 
 function atualizarLocalizacaoMotorista(dadosMotorista) {
     const { id, localizacao, rota, acessibilidade, horarioDaRota } = dadosMotorista;
