@@ -144,7 +144,6 @@ async function adicionarUsuario(event) {
     const email = emailElement.value;
     const confirmarEmail = confirmarEmailElement.value;
     const motorista = tipoElement.value === "motorista";
-    const senha = '123';
 
     if (email !== confirmarEmail) {
         Swal.fire({
@@ -164,7 +163,7 @@ async function adicionarUsuario(event) {
         }
     });
 
-    const resultado = await userService.criarUsuario({ nome, email, senha, motorista });
+    const resultado = await userService.criarUsuario({ nome, email, motorista });
 
     if (resultado.success) {
         Swal.fire({

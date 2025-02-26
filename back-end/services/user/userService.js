@@ -1,16 +1,21 @@
 const Usuario = require('../../models/userModel.js'); 
 const emailService = require('./passwordResetService.js');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
-async function inserirUsuario(nome, email, senha, motorista) {
+async function inserirUsuario(nome, email, motorista) {
     try {
         const usuarioExistente = await Usuario.findOne({ where: { email } });
 
         if (usuarioExistente) {
             throw new Error('E-mail já cadastrado no sistema.');
         }
+        senha = gerarSenhaAleatoria();
+
+        console.log('senha gerada:', senha);
 
         const senhaCriptografada = await bcrypt.hash(senha, 10);
+        console.log('senha rashada', senhaCriptografada);
 
         const usuario = await Usuario.create({
             nome,
@@ -94,6 +99,17 @@ async function excluirUsuario(id_usuario) {
         console.error('Erro ao excluir usuário:', erro);
         throw erro;
     }
+}
+
+function gerarSenhaAleatoria(tamanho = 12) {
+    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+    const buffer = crypto.randomBytes(tamanho); 
+    let senhaAleatoria = '';
+    buffer.forEach(byte => {
+        senhaAleatoria += caracteres[byte % caracteres.length]; 
+    });
+
+    return senhaAleatoria;
 }
 
 module.exports = { inserirUsuario, obterUsuarios, obterUsuarioPorEmail, atualizarUsuario, excluirUsuario };

@@ -5,13 +5,13 @@ const passwordResetService = require('../services/user/passwordResetService.js')
 
 async function criarUsuario(req, res) {
     try {
-        const { nome, email, senha, motorista } = req.body;
+        const { nome, email, motorista } = req.body;
 
-        if (!nome || !email || !senha) {
+        if (!nome || !email ) {
             return res.status(400).json({ message: 'Nome, email e senha são obrigatórios.' });
         }
 
-        const novoUsuario = await usuarioService.inserirUsuario(nome, email, senha, motorista);
+        const novoUsuario = await usuarioService.inserirUsuario(nome, email, motorista);
 
         return res.status(201).json(novoUsuario); 
     } catch (erro) {
