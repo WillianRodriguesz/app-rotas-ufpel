@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const routeSelect = document.getElementById("routeSelect");
     const timeSelect = document.getElementById("timeSelect");
     const accessibilitySelect = document.getElementById("accessibilitySelect");
+    const logoutButton = document.getElementById("logoutButton"); // Seletor para o botão de logout
 
     const usuario = JSON.parse(sessionStorage.getItem('usuario'));
     nomeMotoristaElement.textContent = usuario.nome;
@@ -141,5 +142,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
             }, 5000);
         }
+    });
+
+    logoutButton.addEventListener("click", function () {
+        sessionStorage.removeItem('usuario');
+        localStorage.removeItem('usuario');
+        desconectar() 
+        window.location.href = '/'; 
     });
 });

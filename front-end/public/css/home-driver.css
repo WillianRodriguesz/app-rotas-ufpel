@@ -7,7 +7,7 @@ body {
 .driverHeader {
     background-color: white;
     color: white;
-    padding: 2.5rem;
+    padding-bottom: 30px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -90,7 +90,7 @@ body {
 .driverStatus {
     font-size: 1.25rem;
     font-weight: 600;
-    margin-top: 1.5rem;
+    margin-top: 2px;
 }
 
 /* Status Online/Offline */
@@ -108,8 +108,8 @@ body {
     color: white; /* Cor do texto inicial */
     font-size: 1.2rem;
     font-weight: 600;
-    padding: 0.8rem 2.5rem;
-    border-radius: 30px;
+    padding: 0.8rem 2.55rem;
+    border-radius: 8px;
     transition: all 0.3s ease; /* Transição suave */
     border: none;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -148,7 +148,6 @@ body {
     border-radius: 50%;
     margin-right: 8px;
     animation: pulse 1.5s infinite;
-    margin-top: 23px;
 }
 
 /* Efeito de pulsação para online */

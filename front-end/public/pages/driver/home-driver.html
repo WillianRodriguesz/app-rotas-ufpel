@@ -13,23 +13,21 @@
 <body>
   <div class="min-h-screen flex flex-col items-center ">
     <header class="driverHeader">
-      <img src="/public/img/logo2.png" alt="Logo" class="logo ml-[-40px]">
+      <img src="/public/img/logo2.png" alt="Logo" class="logo ml-[-5px]">
     </header>
 
     <div class="profileContainer ml-[-5px]">
       <div class="avatar bg-blue-500 flex items-center justify-center rounded-full w-32 h-32 overflow-hidden">
-        <!-- Caminho vazio para a imagem, o ícone será exibido em caso de erro -->
         <img src="" alt="Foto de Perfil" class="object-cover w-full h-full" 
             onerror="this.style.display='none'; this.parentNode.innerHTML='<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'currentColor\' class=\'w-28 h-28 text-white\' viewBox=\'0 0 24 24\'><path d=\'M12 12c2.209 0 4-1.791 4-4s-1.791-4-4-4-4 1.791-4 4 1.791 4 4 4zm0 2c-2.673 0-8 1.344-8 4v2h16v-2c0-2.656-5.327-4-8-4z\'/></svg>';">
       </div>
       <p class="driverName">Nome do Motorista</p>
-
       <div class="driverStatusContainer">
         <div class="statusCircle statusCircleOffline"></div> 
         <p class="driverStatus driverStatusOffline">OFFLINE</p> 
       </div>
       
-      <div class="routeSelectionContainer mt-4 w-full">
+      <div class="routeSelectionContainer mt-8 w-full">
         <div class="w-full mb-4"> 
             <label for="routeSelect" class="block text-sm font-medium text-white">Selecione a Rota</label>
             <select id="routeSelect" class="mt-1 block w-full h-12 text-gray-900 bg-gray-200 border border-gray-400 rounded-lg shadow-lg focus:outline-none focus:ring-2 transition-all ease-in-out">
@@ -58,10 +56,20 @@
         </div>
       </div>
     
-
+      <!-- Botão "Ficar Online" -->
       <button class="driverButton driverButtonOffline"> 
         <span class="driverButtonText">Ficar Online</span>
       </button>
+      
+      <button id="logoutButton" class="mt-14 w-48 flex items-center justify-center p-2 bg-red-800 hover:bg-red-500 rounded-lg shadow-lg text-white transition-all">
+        <span class="driverButtonText">Sair</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+            <polyline points="10 17 15 12 10 7"></polyline>
+            <line x1="15" y1="12" x2="3" y2="12"></line>
+        </svg>
+    </button>
+    
 
     </div>
   </div>
