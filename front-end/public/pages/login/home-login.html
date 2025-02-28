@@ -7,11 +7,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-100 text-center w-full overflow-x-hidden font-['Inter'] flex items-center justify-center">
+<body class="bg-gray-100 text-center w-full overflow-x-hidden font-['Inter'] flex flex-col items-center justify-start">
+
+    <!-- Preenchendo o espaço acima da onda com azul -->
+    <div class="bg-blue-700 w-full h-[100px]"></div>
+
+    <!-- O Contêiner da Onda -->
+    <div class="wave-divider w-full">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="fill-blue-700"></path>
+        </svg>
+    </div>
 
     <!-- Conteúdo Principal -->
-    <div class="flex flex-col items-center justify-center mt-20 w-full">
-        <img src="/public/img/logo2.png" alt="Logo" class="w-[350px] sm:w-[400px] my-5">
+    <div class="flex flex-col items-center justify-center mt-10 w-full">
+        <img src="/public/img/logo2.png" alt="Logo" class="w-[450px] sm:w-[450px] my-5">
         <p class="text-2xl font-bold text-blue-600">Bem-vindo!</p>
         <p class="text-lg text-blue-600">Escolha o método de acesso</p>
         <hr class="w-4/5 md:w-2/5 border-orange-500 my-6">
@@ -28,5 +38,30 @@
     </div>
 
     <script src="/src/js/login/home-login-navigation.js"></script>
+
+    <style>
+        .wave-divider {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .wave-divider svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 60px;
+        }
+
+        @media (min-width: 768px) {
+            .wave-divider svg {
+                height: 150px;
+            }
+        }
+    </style>
+
 </body>
 </html>
