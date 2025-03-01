@@ -6,10 +6,8 @@ function obterDataHoraAtual() {
 }
 
 async function obterNotificacoesAtivas() {
-    const dataHoraAtual = obterDataHoraAtual();
-
     try {
-        const resposta = await notificacaoService.listarNotificacoesAtivas(dataHoraAtual);
+        const resposta = await notificacaoService.listarNotificacoesAtivas();
 
         if (resposta.success) {
             const notificacoesAtivas = resposta.data;

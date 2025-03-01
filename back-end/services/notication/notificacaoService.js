@@ -58,23 +58,26 @@ async function obterNotificacaoPorId(id) {
     }
 }
 
-async function obterNotificacoesAtivas(dataHoraUsuario) {
+async function obterNotificacoesAtivas() {
     try {
+        const dataHoraAtualLocal = new Date();
+        const dataHoraFormatada = dataHoraAtualLocal.toISOString().slice(0, 19).replace('T', ' ');
         const query = `
-        SELECT * FROM notificacoes
-        WHERE 
-            '2025-02-21 22:42:00'::timestamp BETWEEN data_envio AND (data_envio + duracao * INTERVAL '1 hour');
+            SELECT * FROM notificacoes
+            WHERE 
+                :dataHoraUsuario::timestamp BETWEEN data_envio AND (data_envio + duracao * INTERVAL '1 hour');
         `;
         const notificacoesAtivas = await sequelize.query(query, {
-            replacements: { dataHoraUsuario },
+            replacements: { dataHoraUsuario: dataHoraFormatada },
             type: sequelize.QueryTypes.SELECT
         });
-
+    
         return notificacoesAtivas;
     } catch (erro) {
         console.error('Erro ao listar notificações ativas:', erro);
         throw erro;
     }
+    
 }
 
 async function atualizarNotificacao(id, titulo, mensagem, dataEnvio, duracao) {
@@ -114,7 +117,7 @@ async function excluirNotificacao(id) {
             type: sequelize.QueryTypes.DELETE
         });
 
-        return resultado[0]; // Retorna a notificação excluída
+        return resultado[0]; 
     } catch (erro) {
         console.error('Erro ao excluir notificação:', erro);
         throw erro;

@@ -84,7 +84,6 @@ function getIconSize(zoom) {
     const baseSizeParadaHeight = 58; 
     const scaleFactor = Math.pow(1.1, zoom - 20); 
 
-    // Tamanhos ajustados com base no zoom
     const busSize = [baseSizeBus * scaleFactor, baseSizeBus * scaleFactor];
     const paradaSize = [baseSizeParadaWidth * scaleFactor, baseSizeParadaHeight * scaleFactor]; 
 

@@ -15,9 +15,9 @@ const notificacaoService = {
         }
     },
 
-    async listarNotificacoesAtivas(dataHoraUsuario) {
+    async listarNotificacoesAtivas() {
         try {
-            const response = await fetch(`/notificacoes/ativas/${dataHoraUsuario}`);
+            const response = await fetch(`/notificacoes/ativas`);
             const result = await response.json();
 
             if (response.ok) {

@@ -23,12 +23,7 @@ async function listarNotificacoes(req, res) {
 
 async function listarNotificacoesAtivas(req, res) {
     try {
-        const { dataHoraUsuario } = req.params; 
-        if (!dataHoraUsuario) {
-            return res.status(400).json({ mensagem: 'Data e hora do usuário são obrigatórias' });
-        }
-
-        const notificacoesAtivas = await notificacaoService.obterNotificacoesAtivas(dataHoraUsuario);
+        const notificacoesAtivas = await notificacaoService.obterNotificacoesAtivas();
         return res.status(200).json(notificacoesAtivas);
     } catch (erro) {
         console.error('Erro ao listar notificações ativas:', erro);
