@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const router = express.Router();
+const authMiddleware = require('../middlewares/authMiddleware.js');
 
 router.get('/', (req, res) => {
     const filePath = path.resolve(__dirname, '../../front-end/public/pages/login/home-login.html');
@@ -32,27 +33,27 @@ router.get('/localizacao/onibus', (req, res) => {
     res.sendFile(filePath);
 });
 
-router.get('/localizacao/motorista', (req, res) => {
+router.get('/localizacao/motorista', authMiddleware, (req, res) => {
     const filePath = path.resolve(__dirname, '../../front-end/public/pages/driver/home-driver.html');
     res.sendFile(filePath);
 });
 
-router.get('/painel', (req, res) => {
+router.get('/painel', authMiddleware, (req, res) => {
     const filePath = path.resolve(__dirname, '../../front-end/public/pages/admin/home.html');
     res.sendFile(filePath);
 });
 
-router.get('/painel/usuarios', (req, res) => {
+router.get('/painel/usuarios', authMiddleware, (req, res) => {
     const filePath = path.resolve(__dirname, '../../front-end/public/pages/admin/users/users.html');
     res.sendFile(filePath);
 });
 
-router.get('/painel/notificacao', (req, res) => {
+router.get('/painel/notificacao', authMiddleware, (req, res) => {
     const filePath = path.resolve(__dirname, '../../front-end/public/pages/admin/notification/notification.html');
     res.sendFile(filePath);
 });
 
-router.get('/painel/paradas', (req, res) => {
+router.get('/painel/paradas', authMiddleware, (req, res) => {
     const filePath = path.resolve(__dirname, '../../front-end/public/pages/admin/bus-stop/bus-stop.html');
     res.sendFile(filePath);
 });
