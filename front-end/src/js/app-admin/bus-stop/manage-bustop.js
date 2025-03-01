@@ -102,10 +102,12 @@ function configurarEventosModais() {
 function configurarAdicionarParada() {
     const formAdicionar = document.getElementById('form-adicionar-parada');
     const nomeElement = document.getElementById('nome');
-    const localizacaoElement = document.getElementById('localizacao');
+    const latitudeElement = document.getElementById('latitude');
+    const longitudeElement = document.getElementById('longitude');
 
     if (nomeElement) nomeElement.value = '';
-    if (localizacaoElement) localizacaoElement.value = '';
+    if (latitudeElement) latitudeElement.value = '';
+    if (longitudeElement) longitudeElement.value = '';
 
     if (formAdicionar) {
         formAdicionar.onsubmit = adicionarParada;
@@ -116,8 +118,7 @@ function configurarBuscaParadas() {
     document.getElementById('search').addEventListener('input', (event) => {
         const termoBusca = event.target.value.toLowerCase();
         const paradasFiltradas = paradas.filter(parada => 
-            parada.nome.toLowerCase().includes(termoBusca) || parada.localizacao.toLowerCase().includes(termoBusca)
-        );
+            parada.nome.toLowerCase().includes(termoBusca));
         listarParadas(paradasFiltradas);
     });
 }
@@ -126,15 +127,17 @@ async function adicionarParada(event) {
     event.preventDefault();
 
     const nomeElement = document.getElementById('nome');
-    const localizacaoElement = document.getElementById('localizacao');
+    const latitudeElement = document.getElementById('latitude');
+    const longitudeElement = document.getElementById('longitude');
 
-    if (!nomeElement || !localizacaoElement) {
+    if (!nomeElement || !latitudeElement || !longitudeElement) {
         console.error('Erro: Um ou mais campos não foram encontrados no DOM.');
         return;
     }
 
     const nome = nomeElement.value;
-    const localizacao = localizacaoElement.value;
+    const latitude = latitudeElement.value;
+    const longitude = longitudeElement.value;
 
     Swal.fire({
         title: 'Registrando parada...',
@@ -145,7 +148,7 @@ async function adicionarParada(event) {
         }
     });
 
-    const resultado = await paradaService.criarParada({ nome, localizacao });
+    const resultado = await paradaService.criarParada({ nome, latitude, longitude });
 
     if (resultado.success) {
         Swal.fire({
@@ -173,7 +176,8 @@ function abrirModalEditarParada(id) {
     const modal = document.getElementById('modal-editar');
     paradaService.obterParadaPorId(id).then(parada => {
         document.getElementById('nome-editar').value = parada.data.nome;
-        document.getElementById('localizacao-editar').value = parada.data.localizacao;
+        document.getElementById('latitude-editar').value = parada.data.latitude;
+        document.getElementById('longitude-editar').value = parada.data.longitude;
         modal.classList.remove('hidden');
         document.getElementById('form-editar-parada').onsubmit = (event) => editarParada(event, id);
     }).catch(error => console.error('Erro ao carregar os dados da parada:', error));
@@ -182,9 +186,10 @@ function abrirModalEditarParada(id) {
 async function editarParada(event, id) {
     event.preventDefault();
     const nome = document.getElementById('nome-editar').value;
-    const localizacao = document.getElementById('localizacao-editar').value;
+    const latitude = document.getElementById('latitude-editar').value;
+    const longitude = document.getElementById('longitude-editar').value;
 
-    const resultado = await paradaService.atualizarParada(id, { nome, localizacao });
+    const resultado = await paradaService.atualizarParada(id, { nome, latitude, longitude });
     if (resultado.success) {
         Swal.fire('Atualizada!', `A parada ${nome} foi atualizada com sucesso.`, 'success');
         carregarParadas();

@@ -10,12 +10,13 @@
 </head>
 <body class="bg-gray-100 h-screen flex flex-col">
     
-    <!-- Cabeçalho -->
     <div class="flex items-center justify-between pl-4 pr-4 pt-4 bg-white">
         <button onclick="window.location.href='/painel'" class="text-yellow-500 hover:text-yellow-700">
             <i class="fa-solid fa-arrow-left text-2xl"></i>
         </button>
-        <h1 class="text-xl font-semibold">Paradas de Ônibus</h1>
+        <a href="/painel">
+            <img src="/public/img/logo2.png" alt="Logo" class="w-40 h-auto"> 
+        </a> 
     </div>
 
     <!-- Barra de Pesquisa -->
@@ -53,10 +54,17 @@
                     <label for="nome" class="block text-sm font-semibold">Nome da Parada</label>
                     <input type="text" id="nome" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nome" required>
                 </div>
+               
+                <!-- Campos para Latitude e Longitude -->
                 <div class="mt-4">
-                    <label for="localizacao" class="block text-sm font-semibold">Localização</label>
-                    <input type="text" id="localizacao" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Endereço ou referência" required>
+                    <label for="latitude" class="block text-sm font-semibold">Latitude</label>
+                    <input type="text" id="latitude" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Latitude" required>
                 </div>
+                <div class="mt-4">
+                    <label for="longitude" class="block text-sm font-semibold">Longitude</label>
+                    <input type="text" id="longitude" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Longitude" required>
+                </div>
+
                 <div class="flex justify-between items-center mt-6">
                     <button type="button" id="btn-cancelar-adicionar" class="text-red-500 hover:text-red-700">Cancelar</button>
                     <button type="submit" id="btn-salvar-adicionar" class="bg-green-600 text-white p-3 rounded-lg">Cadastrar</button>
@@ -64,6 +72,7 @@
             </form>
         </div>
     </div>
+
 
     <!-- Scripts -->
     <script src="../../../src/js/app-admin/bus-stop/manage-bustop.js" type="module" defer></script> 
