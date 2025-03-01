@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +20,9 @@
         <p class="text-sm text-gray-600 text-center">Por favor, faça login para continuar</p>
 
         <!-- Formulário de Login -->
-        <form id="loginForm" class="w-full flex flex-col space-y-4 bg-white shadow-md rounded-lg p-6">
+        <form id="loginForm" class="w-full flex flex-col space-y-4 bg-white shadow-md rounded-lg p-6" aria-labelledby="loginFormLabel">
+            <h2 id="loginFormLabel" class="sr-only">Formulário de Login</h2>
+
             <!-- Campo de Email -->
             <input 
                 type="email" 
@@ -29,6 +31,7 @@
                 placeholder="E-mail" 
                 class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 required
+                aria-required="true"
             >
 
             <!-- Campo de Senha -->
@@ -39,12 +42,15 @@
                 placeholder="Senha" 
                 class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 required
+                aria-required="true"
             >
 
             <!-- Botão de Login -->
             <button 
                 type="submit" 
-                class="w-full text-lg font-bold bg-yellow-500 text-white p-3 rounded-lg hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                class="w-full text-lg font-bold bg-yellow-500 text-white p-3 rounded-lg hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                aria-label="Acessar"
+            >
                 Acessar
             </button>
 
@@ -52,7 +58,9 @@
             <button 
                 type="button" 
                 id="voltarButton"
-                class="w-full text-lg font-bold bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                class="w-full text-lg font-bold bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                aria-label="Voltar"
+            >
                 Voltar
             </button>
         </form>

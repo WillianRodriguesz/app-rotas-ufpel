@@ -1,29 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rotas UFPel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="/public/img/logo1.svg" type="image/svg"> 
 </head>
-<body class=" h-screen flex flex-col">
+<body class="h-screen flex flex-col">
 
     <!-- Cabeçalho -->
     <div class="flex items-center justify-between p-2 bg-white shadow-md">
         <!-- Botão de Voltar -->
-    <button onclick="window.location.href='/'" class="text-yellow-500 hover:text-yellow-700 p-3">
-        <i class="fa-solid fa-arrow-left text-2xl"></i>
-    </button>
+        <button onclick="window.location.href='/'" class="text-yellow-500 hover:text-yellow-700 p-3" aria-label="Voltar para a página inicial">
+            <i class="fa-solid fa-arrow-left text-2xl"></i>
+        </button>
         <!-- Logo -->
         <a href="/">
-            <img src="/public/img/logo2.png" alt="Logo" class="w-40 h-auto"> 
+            <img src="/public/img/logo2.png" alt="Logo da UFPel" class="w-40 h-auto">
         </a> 
     </div>
 
     <!-- Imagem e Texto de Introdução -->
     <div class="flex flex-col justify-center items-center text-center p-4 mt-4">
-        <img src="/public/img/fig-home.svg" alt="Imagem de Rotas" class="w-full h-80 object-cover rounded-lg mb-4">
+        <img src="/public/img/fig-home.svg" alt="Imagem representando rotas de ônibus" class="w-full h-80 object-cover rounded-lg mb-4">
         <h1 class="text-4xl font-bold text-gray-800 mb-4">Rotas UFPel</h1>
         <p class="text-lg text-gray-600 max-w-xl mx-auto">
             Sistema de monitoramento em tempo real das rotas de ônibus de apoio, com consulta rápida de paradas, itinerários e horários, garantindo praticidade para os alunos.
@@ -32,16 +33,16 @@
 
     <!-- Barra de Navegação Fixa -->
     <div class="flex justify-between items-center fixed bottom-[-18px] w-full bg-white shadow-xl py-3 px-4 z-50">
-        <a href="/inicio" class="flex flex-col items-center">
-            <img src="/public/img/icons/home.svg" alt="Home" class="w-35 h-35"> 
+        <a href="/inicio" class="flex flex-col items-center" aria-label="Página inicial">
+            <img src="/public/img/icons/home.svg" alt="Ícone de página inicial" class="w-35 h-35">
             <span class="text-xs text-gray-600"></span>
         </a>
-        <a href="/localizacao/onibus" class="flex flex-col items-center">
-            <img src="/public/img/icons/location.svg" alt="Localização" class="w-35 h-35"> 
+        <a href="/localizacao/onibus" class="flex flex-col items-center" aria-label="Localização dos ônibus">
+            <img src="/public/img/icons/location.svg" alt="Ícone de localização de ônibus" class="w-35 h-35">
             <span class="text-xs text-gray-600"></span>
         </a>
-        <a href="/rotas" class="flex flex-col items-center">
-            <img src="/public/img/icons/route.svg" alt="Rota" class="w-35 h-35"> 
+        <a href="/rotas" class="flex flex-col items-center" aria-label="Rotas de ônibus">
+            <img src="/public/img/icons/route.svg" alt="Ícone de rotas de ônibus" class="w-35 h-35">
             <span class="text-xs text-gray-600"></span>
         </a>
     </div>
