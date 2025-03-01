@@ -40,41 +40,67 @@ async function carregarRotasNoDropdown() {
     }
 }
 
-// Função para carregar as paradas da rota selecionada
+// Função para carregar as paradas no mapa e no dropdown
 async function carregarParadasPorRota(idRota) {
     const dropdown = document.getElementById('stopDropdown');
-    dropdown.innerHTML = '';
-
+    dropdown.innerHTML = '';  
     if (!idRota) {
-        const optionDefault = document.createElement('button');
-        optionDefault.classList.add('w-full', 'text-left', 'p-2', 'text-sm', 'text-gray-500', 'hover:bg-gray-100');
-        optionDefault.textContent = 'Selecione uma parada';
-        dropdown.appendChild(optionDefault);
-        return;
-    }
-
-    const resultado = await paradaService.obterParadasPorRotaId(idRota);
-
-    console.log("Paradas carregadas:", resultado);
-
-    if (resultado.success) {
-        const paradas = Array.isArray(resultado.data) ? resultado.data : resultado.data.paradas || [];
-
-        if (paradas.length === 0) {
-            console.warn("Nenhuma parada encontrada para essa rota.");
+        const resultado = await paradaService.listarParadas();
+        
+        if (resultado.success) {
+            const paradas = Array.isArray(resultado.data) ? resultado.data : resultado.data.paradas || [];
+    
+            if (paradas.length === 0) {
+                console.warn("Nenhuma parada encontrada.");
+            }
+    
+            const paradasFormatadas = paradas.map(parada => ({
+                parada_id: parada.id,
+                parada_nome: parada.nome,
+                coordenadas: {
+                    latitude: parada.latitude,
+                    longitude: parada.longitude
+                }
+            }));
+    
+            paradasFormatadas.forEach(parada => {
+                const option = document.createElement('button');
+                option.classList.add('w-full', 'text-left', 'p-2', 'text-sm', 'hover:bg-gray-100');
+                option.textContent = parada.parada_nome;
+                option.onclick = () => selectStopOption(parada.parada_nome, parada.coordenadas.latitude, parada.coordenadas.longitude);
+                dropdown.appendChild(option);
+            });
+    
+            console.log('PARADAS PARA ADICIONAR NO MAPA: ', paradasFormatadas);
+    
+            addParadasMapa(paradasFormatadas);
         }
-
-        paradas.forEach(parada => {
-            const option = document.createElement('button');
-            option.classList.add('w-full', 'text-left', 'p-2', 'text-sm', 'hover:bg-gray-100');
-            option.textContent = parada.parada_nome;
-            option.onclick = () => selectStopOption(parada.parada_nome, parada.coordenadas.latitude, parada.coordenadas.longitude);
-            dropdown.appendChild(option);
-        });
-
-        addParadasMapa(paradas);
+    
+        if (!resultado.success) {
+            console.error('Erro ao carregar as paradas:', resultado.message || resultado);
+        }
     } else {
-        console.error('Erro ao carregar as paradas da rota:', resultado.message || resultado);
+        const resultado = await paradaService.obterParadasPorRotaId(idRota);
+        if (resultado.success) {
+            const paradas = Array.isArray(resultado.data) ? resultado.data : resultado.data.paradas || [];
+
+            if (paradas.length === 0) {
+                console.warn("Nenhuma parada encontrada para essa rota.");
+            }
+
+            paradas.forEach(parada => {
+                const option = document.createElement('button');
+                option.classList.add('w-full', 'text-left', 'p-2', 'text-sm', 'hover:bg-gray-100');
+                option.textContent = parada.parada_nome;
+                option.onclick = () => selectStopOption(parada.parada_nome, parada.coordenadas.latitude, parada.coordenadas.longitude);
+                dropdown.appendChild(option);
+            });
+            console.log('PARADAS DA ROTA NO MAPA: ', paradas);
+
+            addParadasMapa(paradas);  
+        } else {
+            console.error('Erro ao carregar as paradas da rota:', resultado.message || resultado);
+        }
     }
 }
 
@@ -82,10 +108,6 @@ async function carregarParadasPorRota(idRota) {
 function selectStopOption(nomeParada, latitude, longitude) {
     document.getElementById('stopButtonText').innerText = nomeParada;
     toggleDropdown('stopDropdown', 'stop');
-
-    console.log(`📍 Parada selecionada: ${nomeParada}`);
-    console.log(`🌍 Coordenadas: Latitude ${latitude}, Longitude ${longitude}`);
-
     localizarParada(latitude, longitude);
 }
 
@@ -94,7 +116,7 @@ function selectRouteOption(option, idRota) {
     document.getElementById('busButtonText').innerText = option;
     toggleDropdown('busDropdown', 'bus');
 
-    carregarParadasPorRota(idRota);
+    carregarParadasPorRota(idRota);  // Carrega as paradas da rota selecionada
 }
 
 // Função para alternar a visibilidade do dropdown
@@ -115,10 +137,19 @@ function toggleDropdown(dropdownId, buttonId) {
     }
 }
 
+// Verificar se há uma rota selecionada ao carregar a página
+function verificarRotaSelecionada() {
+    const selectedRoute = document.getElementById('busButtonText').innerText;
+    if (!selectedRoute || selectedRoute === 'Selecionar Rota') {
+        carregarParadasPorRota();
+    }
+}
+
 // Event Listeners
 document.addEventListener("DOMContentLoaded", function() {
     carregarRotasNoDropdown();
-    carregarParadasNoDropdown(); // Mantém o dropdown de paradas vazio no início
+    carregarParadasNoDropdown(); 
+    verificarRotaSelecionada();
 
     document.getElementById('busButton').addEventListener('click', function() {
         toggleDropdown('busDropdown', 'bus');

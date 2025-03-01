@@ -1,5 +1,4 @@
 import mockLocations from "../../mocks/location.js";
-import paradas from "../../mocks/paradas.js";
 import { receberDadosMotorista } from '../../../../services/socketService.js';
 
 // Definição dos ícones antes de usá-los
