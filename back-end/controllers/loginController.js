@@ -22,7 +22,7 @@ async function autenticarUsuario(req, res) {
         const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
 
         if (!senhaCorreta) {
-            return res.status(401).json({ message: 'Credenciais inválidas.' });
+            return res.status(401).json({ message: 'Senha incorreta.' });
         }
 
         // Gera o token JWT
