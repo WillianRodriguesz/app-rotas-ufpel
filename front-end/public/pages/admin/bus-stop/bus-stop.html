@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Paradas de Ônibus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col">
+    
+    <!-- Cabeçalho -->
+    <div class="flex items-center justify-between pl-4 pr-4 pt-4 bg-white">
+        <button onclick="window.location.href='/painel'" class="text-yellow-500 hover:text-yellow-700">
+            <i class="fa-solid fa-arrow-left text-2xl"></i>
+        </button>
+        <h1 class="text-xl font-semibold">Paradas de Ônibus</h1>
+    </div>
+
+    <!-- Barra de Pesquisa -->
+    <div class="p-2 bg-white shadow-md">
+        <div class="relative">
+            <input 
+                type="text" 
+                id="search" 
+                placeholder="Pesquisar parada por nome ou localização" 
+                class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-500 focus:outline-none pr-10"
+            />
+            <span class="absolute inset-y-0 right-3 flex items-center text-gray-400">
+                <i class="fa-solid fa-magnifying-glass text-lg"></i>
+            </span>
+        </div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow p-4 space-y-6">
+        <div id="add-parada-modal" class="bg-green-600 text-white shadow-md rounded-lg p-4 flex items-center justify-between cursor-pointer hover:shadow-lg">
+            <h2 class="text-md font-semibold">Adicionar Parada</h2>
+            <i class="fa-solid fa-plus text-2xl"></i>
+        </div>
+        
+        <!-- Lista de Paradas -->
+        <div id="lista-paradas" class="space-y-4"></div>
+    </main>
+
+    <!-- Modal de Adicionar Parada -->
+    <div id="modal-adicionar" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center hidden">
+        <div class="bg-white p-6 rounded-lg w-96 space-y-4">
+            <h2 class="text-xl font-semibold">Cadastrar Nova Parada</h2>
+            <form id="form-adicionar-parada" method="POST">
+                <div>
+                    <label for="nome" class="block text-sm font-semibold">Nome da Parada</label>
+                    <input type="text" id="nome" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nome" required>
+                </div>
+                <div class="mt-4">
+                    <label for="localizacao" class="block text-sm font-semibold">Localização</label>
+                    <input type="text" id="localizacao" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Endereço ou referência" required>
+                </div>
+                <div class="flex justify-between items-center mt-6">
+                    <button type="button" id="btn-cancelar-adicionar" class="text-red-500 hover:text-red-700">Cancelar</button>
+                    <button type="submit" id="btn-salvar-adicionar" class="bg-green-600 text-white p-3 rounded-lg">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../../src/js/app-admin/bus-stop/manage-bustop.js" type="module" defer></script> 
+</body>
+</html>

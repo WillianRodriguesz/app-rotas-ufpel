@@ -52,6 +52,11 @@ router.get('/painel/notificacao', (req, res) => {
     res.sendFile(filePath);
 });
 
+router.get('/painel/paradas', (req, res) => {
+    const filePath = path.resolve(__dirname, '../../front-end/public/pages/admin/bus-stop/bus-stop.html');
+    res.sendFile(filePath);
+});
+
 router.get('/redefinir-senha/:token', (req, res) => {
     const filePath = path.resolve(__dirname, '../../front-end/public/pages/reset-password/reset-password.html');
     res.sendFile(filePath);
