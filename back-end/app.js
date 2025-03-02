@@ -1,5 +1,5 @@
 const express = require('express');
-const cookieParser = require('cookie-parser'); // Importa o cookie-parser
+const cookieParser = require('cookie-parser'); 
 const app = express();
 require('dotenv').config();
 
@@ -10,13 +10,17 @@ const stopRoutes = require('../back-end/routes/stopRoutes')
 const routeStopRoutes = require('../back-end/routes/routeStopRoutes')
 const routeRoutes = require('../back-end/routes/routeRoutes')
 const notificationRoutes = require('../back-end/routes/notificationRoutes')
-
+const SERVER_URL = process.env.SERVER_URL || 'http://localhost:3000'; 
 
 app.use(express.static('front-end'));
-app.use(cookieParser());  
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
+app.get('/config', (req, res) => {
+  res.json({ serverUrl: SERVER_URL });
+});
+
 app.use('/', userRoutes);
 app.use('/', loginRoutes);
 app.use('/', viewRoutes);

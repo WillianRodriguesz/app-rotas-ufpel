@@ -1,10 +1,32 @@
-const socket = io('https://192.168.0.108:3000', {
-  secure: true, 
-  rejectUnauthorized: false, 
+let socket;
+
+function obterServerUrl() {
+  return fetch('/config')
+    .then(response => response.json())
+    .then(data => data.serverUrl)
+    .catch(error => {
+      console.error('Erro ao obter a URL do servidor:', error);
+      return 'https://localhost:3000'; 
+    });
+}
+
+obterServerUrl().then(serverUrl => {
+  socket = io(serverUrl, {
+    secure: true,
+    rejectUnauthorized: false,
+  });
+
+  console.log(`Conectado ao servidor: ${serverUrl}`);
+}).catch(error => {
+  console.error('Erro ao inicializar o socket:', error);
 });
 
-// Função para enviar os dados do motorista para o servidor via WebSocket
 function enviarDadosMotorista(id, rota, horarioDaRota, acessibilidade, localizacao) {
+  if (!socket) {
+    console.error("Socket não inicializado");
+    return;
+  }
+
   const dadosMotorista = {
     id, 
     localizacao,
@@ -17,16 +39,22 @@ function enviarDadosMotorista(id, rota, horarioDaRota, acessibilidade, localizac
 }
 
 function receberDadosMotorista(callback) {
+  if (!socket) {
+    console.error("Socket não inicializado");
+    return;
+  }
+
   socket.on('atualizar-localizacao', (dadosMotorista) => {
     if (callback && typeof callback === 'function') {
-      callback(dadosMotorista);  
+      callback(dadosMotorista);
     }
   });
 }
 
-// Função para desconectar do WebSocket
 function desconectar() {
-  socket.disconnect();
+  if (socket) {
+    socket.disconnect();
+  }
 }
 
 export { enviarDadosMotorista, receberDadosMotorista, desconectar };
