@@ -17,3 +17,4 @@ npm install cookie-parser
 
 npm install jsonwebtoken nodemailer dotenv
 
+migration - npx sequelize-cli db:migrate
