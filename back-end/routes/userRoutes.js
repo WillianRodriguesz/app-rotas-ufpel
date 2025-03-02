@@ -8,6 +8,6 @@ router.get('/usuarios', authMiddleware, usuarioController.listarUsuarios);
 router.get('/usuarios/:email', usuarioController.obterUsuarioPorEmail);
 router.put('/usuarios/:id_usuario', authMiddleware, usuarioController.atualizarUsuario);
 router.delete('/usuarios/:id_usuario', authMiddleware, usuarioController.excluirUsuario);
-router.post('/usuarios/redefinir-senha', authMiddleware, usuarioController.redefinirSenha);
+router.post('/usuarios/redefinir-senha', usuarioController.redefinirSenha);
 
 module.exports = router;
