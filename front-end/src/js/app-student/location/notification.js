@@ -59,10 +59,9 @@ function exibirNotificacao(mensagem, titulo) {
 
     container.appendChild(notification);
 
-    // Remove a notificação automaticamente após 4 segundos
     setTimeout(() => {
         notification.remove();
-    }, 4000);
+    }, 8000);
 }
 
 // Evento de clique no ícone de notificação
