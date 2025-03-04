@@ -1,7 +1,7 @@
 import routeService from '../../../../services/routeService.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const searchInput = document.getElementById('searchInput'); // Input de busca
+    const searchInput = document.getElementById('searchInput');
 
     function obterIdRotaDaUrl() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -26,34 +26,41 @@ document.addEventListener('DOMContentLoaded', async () => {
         const containerHorarios = document.querySelector('.mt-2.space-y-4');
         containerHorarios.innerHTML = '';
 
-        Object.keys(horariosAgrupados).forEach((horario) => {
-            const paradas = horariosAgrupados[horario];
-            paradas.sort((a, b) => a.ordem - b.ordem);
+        // Criar um único card
+        const cardHorario = document.createElement('div');
+        cardHorario.classList.add('border-t', 'pt-4');
+        
+        // Criar a div para os horários com ícone de relógio único
+        const divHorarios = document.createElement('div');
+        divHorarios.classList.add('flex', 'items-center', 'gap-2', 'mb-2');
 
-            const cardHorario = document.createElement('div');
-            cardHorario.classList.add('border-t', 'pt-4');
-            
-            const divHora = document.createElement('div');
-            divHora.classList.add('flex', 'items-center', 'space-x-2');
-            
-            const iconeRelogio = document.createElement('i');
-            iconeRelogio.classList.add('fa-solid', 'fa-clock', 'text-blue-600', 'text-lg');
-            
+        const iconRelogio = document.createElement('i');
+        iconRelogio.classList.add('fas', 'fa-clock', 'text-blue-600', 'text-lg');
+        divHorarios.appendChild(iconRelogio);
+
+        const horariosContainer = document.createElement('div');
+        horariosContainer.classList.add('flex', 'flex-wrap', 'gap-2');
+        
+        Object.keys(horariosAgrupados).forEach((horario) => {
             const spanHora = document.createElement('span');
-            spanHora.classList.add('text-blue-600', 'font-bold', 'text-lg');
-            
-            const horarioFormatado = horario.substring(0, 5);
-            spanHora.textContent = horarioFormatado;
-            
-            const paragrafoParadas = document.createElement('p');
-            paragrafoParadas.classList.add('text-sm', 'text-gray-600', 'mt-1');
-            const listaParadas = paradas.map(parada => parada.parada_nome).join(' → ');
-            paragrafoParadas.innerHTML = `<span class="font-bold">Paradas:</span> ${listaParadas}`;
-            
-            divHora.append(iconeRelogio, spanHora);
-            cardHorario.append(divHora, paragrafoParadas);
-            containerHorarios.append(cardHorario);
+            spanHora.classList.add('text-blue-600', 'font-bold', 'text-lg', 'px-2', 'py-1', 'bg-gray-100', 'rounded-md', 'shadow-md');
+            spanHora.textContent = horario.substring(0, 5);
+            horariosContainer.appendChild(spanHora);
         });
+
+        divHorarios.appendChild(horariosContainer);
+
+        // Criar a div para as paradas
+        const paragrafoParadas = document.createElement('p');
+        paragrafoParadas.classList.add('text-md', 'text-gray-600', 'mt-2', 'pt-4');
+        const listaParadas = Object.values(horariosAgrupados)[0]
+            .sort((a, b) => a.ordem - b.ordem)
+            .map(parada => parada.parada_nome).join(' → ');
+        paragrafoParadas.innerHTML = `<span class="font-bold">Paradas:</span> ${listaParadas}`;
+
+        // Montar o card
+        cardHorario.append(divHorarios, paragrafoParadas);
+        containerHorarios.append(cardHorario);
     }
 
     async function carregarHorariosRota() {
@@ -74,25 +81,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Função para filtrar horários e paradas com base na pesquisa
     function filtrarHorariosEPardas() {
-        const searchTerm = searchInput.value.toLowerCase(); // Obtém o termo da busca
+        const searchTerm = searchInput.value.toLowerCase();
         const containerHorarios = document.querySelector('.mt-2.space-y-4');
-        const cards = containerHorarios.querySelectorAll('div.border-t');
+        const card = containerHorarios.querySelector('div.border-t');
 
-        cards.forEach(card => {
-            const paradasText = card.querySelector('p').textContent.toLowerCase(); 
-            const horarioText = card.querySelector('span.text-blue-600').textContent.toLowerCase(); 
-
-            if (paradasText.includes(searchTerm) || horarioText.includes(searchTerm)) {
-                card.style.display = ''; // Exibe o card se o termo for encontrado
+        if (card) {
+            const paradasText = card.querySelector('p').textContent.toLowerCase();
+            const horariosText = Array.from(card.querySelectorAll('span')).map(span => span.textContent.toLowerCase()).join(' ');
+            
+            if (paradasText.includes(searchTerm) || horariosText.includes(searchTerm)) {
+                card.style.display = '';
             } else {
-                card.style.display = 'none'; // Esconde o card se o termo não for encontrado
+                card.style.display = 'none';
             }
-        });
+        }
     }
 
-    // Adiciona o evento de pesquisa
     searchInput.addEventListener('input', filtrarHorariosEPardas);
 
     carregarHorariosRota();

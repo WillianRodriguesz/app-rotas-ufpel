@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon back-end/server.js"
+    "start": "node back-end/server.js",
+    "dev": "nodemon back-end/server.js"
   },
   "keywords": [],
   "author": "",

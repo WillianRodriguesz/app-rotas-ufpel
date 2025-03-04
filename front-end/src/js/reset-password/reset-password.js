@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Pegando o token diretamente do path da URL
         const pathname = window.location.pathname;
         const token = pathname.split('/').pop(); // Pega o último valor da URL (token)
+        console.log('token JWT:', token);
 
         if (!token) {
             Swal.fire({
